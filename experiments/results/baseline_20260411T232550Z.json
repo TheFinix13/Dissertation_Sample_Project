@@ -1,0 +1,41 @@
+[
+  {
+    "final_portfolio_value": 985288.344450601,
+    "annualized_return": -0.0038038471601263223,
+    "annualized_volatility": 0.008638644997237047,
+    "sharpe_ratio": -0.4411606397356406,
+    "max_drawdown": 0.021456000666315478,
+    "var_95": 0.0,
+    "var_95_violation_rate": 0.011224489795918367,
+    "capital_preservation_rate_95pct_hwm": 0.981048847067096,
+    "meets_95pct_preservation_goal": true,
+    "seed": 7,
+    "agent": "ppo_standalone"
+  },
+  {
+    "final_portfolio_value": 984709.5732167435,
+    "annualized_return": -0.003954354505187326,
+    "annualized_volatility": 0.007777184979343002,
+    "sharpe_ratio": -0.5094533272526025,
+    "max_drawdown": 0.020362276532254087,
+    "var_95": 0.0,
+    "var_95_violation_rate": 0.01020408163265306,
+    "capital_preservation_rate_95pct_hwm": 0.9804725661693371,
+    "meets_95pct_preservation_goal": true,
+    "seed": 19,
+    "agent": "ppo_standalone"
+  },
+  {
+    "final_portfolio_value": 986392.3698594907,
+    "annualized_return": -0.0035169314162025534,
+    "annualized_volatility": 0.010523189884586986,
+    "sharpe_ratio": -0.33479175516433357,
+    "max_drawdown": 0.0208587479832274,
+    "var_95": 0.0,
+    "var_95_violation_rate": 0.01020408163265306,
+    "capital_preservation_rate_95pct_hwm": 0.9817350367402177,
+    "meets_95pct_preservation_goal": true,
+    "seed": 42,
+    "agent": "ppo_standalone"
+  }
+]

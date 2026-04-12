@@ -1,0 +1,30 @@
+# Portfolio Risk DRL Project - Phase 0 Dependencies
+# Python 3.9-3.11 recommended (3.14 has GluonTS scipy compatibility issues)
+
+# Core
+pandas>=2.0
+numpy>=1.24
+scipy>=1.10
+
+# Reinforcement Learning
+stable-baselines3>=2.0
+gymnasium>=0.29
+
+# FinRL (optional - has dependency conflicts; use standalone example if issues)
+# FinRL>=0.3.7
+# exchange_calendars
+# stockstats
+
+# Data
+yfinance>=1.2
+websockets>=13.0  # required by yfinance
+
+# GluonTS / DeepAR (Python 3.10-3.11 only - scipy<1.16 has no py3.14 wheel)
+# pip install gluonts[torch]  # use Python 3.10/3.11
+
+# PyTorch (for DeepAR-style probabilistic model)
+torch>=2.0
+
+# Utilities
+matplotlib>=3.7
+tqdm>=4.65

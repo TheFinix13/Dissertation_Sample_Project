@@ -1,0 +1,49 @@
+{
+  "project": "Probabilistic Deep Reinforcement Learning for Portfolio Risk Analysis",
+  "version": "phase1_protocol_v1",
+  "objective": "Preserve at least 95% of high-watermark portfolio value during severe drawdowns.",
+  "data": {
+    "tickers": ["SPY", "QQQ"],
+    "start_date": "2009-01-01",
+    "end_date": "2025-12-31",
+    "frequency": "1d"
+  },
+  "splits": {
+    "train": ["2009-01-01", "2018-12-31"],
+    "validation": ["2019-01-01", "2021-12-31"],
+    "test": ["2022-01-01", "2025-12-31"]
+  },
+  "shock_periods": [
+    {
+      "name": "covid_crash",
+      "start": "2020-02-01",
+      "end": "2020-06-30"
+    },
+    {
+      "name": "ukraine_war_onset",
+      "start": "2022-02-01",
+      "end": "2022-09-30"
+    }
+  ],
+  "evaluation_metrics": [
+    "final_portfolio_value",
+    "annualized_return",
+    "annualized_volatility",
+    "sharpe_ratio",
+    "max_drawdown",
+    "var_95",
+    "var_95_violation_rate",
+    "capital_preservation_rate_95pct_hwm"
+  ],
+  "seeds": [7, 19, 42],
+  "baseline": {
+    "model_name": "ppo_standalone",
+    "timesteps": 10000
+  },
+  "probabilistic_agent": {
+    "model_name": "ppo_with_uncertainty_guard",
+    "uncertainty_quantile_stop": 0.8,
+    "position_scale_floor": 0.1,
+    "timesteps": 10000
+  }
+}

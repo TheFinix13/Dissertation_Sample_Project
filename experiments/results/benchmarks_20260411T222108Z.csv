@@ -1,0 +1,3 @@
+agent,annualized_return,annualized_volatility,capital_preservation_rate_95pct_hwm,final_portfolio_value,max_drawdown,meets_95pct_preservation_goal,seed,sharpe_ratio,var_95,var_95_violation_rate
+buy_and_hold,0.11123072423510123,0.17975161771114542,0.995118752797609,1520353.75,0.24496385968975876,True,-1,0.5867433621779099,-0.017239963456800567,0.04995004995004995
+all_cash,0.0,0.0,1.0,1000000.0,0.0,True,-1,0.0,0.0,0.0
