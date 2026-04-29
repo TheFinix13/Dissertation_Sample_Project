@@ -389,13 +389,17 @@ def build() -> Path:
     add_para(
         doc,
         "The objectives have been refined during Phase 0 and Phase 1 in light of "
-        "supervisor feedback. The current working set is:",
+        "supervisor feedback. They are stated in the order in which the dissertation "
+        "answers them: the core scientific question first, the empirical evidence "
+        "(both single-asset headline and multi-asset / out-of-time generalisation) "
+        "second, the reproducibility apparatus third, and the honest position on "
+        "where the method works and where it does not fourth.",
     )
     add_bullets(doc, [
-        "O1. To study whether an explicit forecast-uncertainty signal, modelled with a DeepAR-style probabilistic LSTM and consumed by a PPO policy as both a state feature and a hard guard on new long-side actions, allows the agent to sit closer to the return-versus-drawdown frontier than uncertainty-blind alternatives on US equity index data.",
-        "O2. To evaluate the resulting policy on a held-out window containing real macro shocks (2022 to 2025) against three named comparators — passive buy-and-hold, a rule-based stop-loss policy, and a baseline PPO with no uncertainty signal — using a metric set in which the headline criteria are Sharpe ratio, terminal value relative to buy-and-hold, and the capital-preservation ratio against the running high-watermark.",
-        "O3. To pin down a fully reproducible evaluation protocol of fixed splits, fixed seeds, scripted artefacts and a shared metric set, so that any comparison made in this dissertation is genuinely like-for-like and can be reproduced from the public repository in a single command sequence.",
-        "O4. To take an honest position, on the strength of O1 to O3, on when an uncertainty signal earns a place in a portfolio control loop and, just as important, on when it does not.",
+        "O1 — the core scientific question. Can a deep reinforcement-learning agent that conditions on its own forecaster's predictive uncertainty (how confident the forecaster is, not just what it predicts) sit closer to the drawdown-constrained risk-adjusted return frontier than uncertainty-blind alternatives? Operationally: a DeepAR-style probabilistic LSTM emits predictive mean and variance; a Proximal Policy Optimization (PPO) policy reads the variance as a state feature and as a hard guard that blocks new long-side trades when the uncertainty score exceeds a quantile threshold.",
+        "O2 — the empirical evidence. Evaluate the resulting policy on a fixed held-out window containing real macro shocks (2022 to 2025) against three named comparators — passive buy-and-hold, a rule-based trailing stop-loss policy, and a baseline PPO with no uncertainty signal — and check that the conclusions survive contact with (a) a 70-ticker diversified-equity test universe (41 single-name US large-cap equities + 29 ETFs spanning broad-market, sector, dividend, thematic and commodity exposure) and (b) a four-fold walk-forward grid in which the train, validation and test windows roll forward across 2018–2025. Headline metrics: Sharpe ratio, terminal value relative to buy-and-hold, and the capital-preservation ratio against the running high-watermark.",
+        "O3 — reproducibility. Pin down a fully reproducible evaluation protocol of fixed splits, fixed random seeds, scripted experiment runners, scripted reporting and a shared metric set, so that any comparison made in this dissertation is genuinely like-for-like and can be reproduced from the public repository in a single command sequence.",
+        "O4 — honest position on where it works and where it does not. Diagnose the regimes in which the uncertainty-aware policy beats the alternatives and the regimes in which it does not, and take a defensible position — on the strength of O1 to O3 — on when an explicit uncertainty signal earns a place in a portfolio control loop and, just as important, on when it does not.",
     ])
 
     page_break(doc)
