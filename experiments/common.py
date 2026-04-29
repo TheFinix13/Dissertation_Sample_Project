@@ -1,8 +1,10 @@
+import argparse
 import json
 import math
 import random
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Iterable
 
 import gymnasium as gym
 import numpy as np
@@ -33,6 +35,238 @@ def fetch_close_frame(ticker: str, start: str, end: str) -> pd.DataFrame:
     if df.empty:
         raise ValueError(f"No price data returned for {ticker} [{start} -> {end}]")
     return df
+
+
+def close_1d(price_df: pd.DataFrame) -> pd.Series:
+    """Return the Close column as a 1-D float32 Series even when yfinance gives MultiIndex columns."""
+    close = price_df["Close"]
+    if isinstance(close, pd.DataFrame):
+        close = close.iloc[:, 0]
+    return close.astype("float32")
+
+
+# --------------------------------------------------------------------------- #
+# CLI / protocol helpers
+# --------------------------------------------------------------------------- #
+def _parse_tickers(value: str | None, protocol: dict) -> list[str]:
+    """Resolve --tickers into a concrete list.
+
+    Accepted values:
+        - None or "" : use the legacy single ticker (protocol.data.tickers[0]).
+        - "basket"   : use protocol.data.ticker_basket (the eight-ticker formal basket).
+        - "all"      : alias for 'basket'.
+        - <named_group> : any key under protocol.data.named_groups, e.g.
+          "fiyins_portfolio", "fiyins_stocks", "fiyins_etfs".
+          Case-insensitive.
+        - comma-separated list, e.g. "SPY,QQQ,XLK" : use exactly those tickers.
+    """
+    if value is None or value.strip() == "":
+        return [protocol["data"]["tickers"][0]]
+    key = value.strip().lower()
+    if key in {"basket", "all"}:
+        basket = protocol["data"].get("ticker_basket")
+        if not basket:
+            raise ValueError("Protocol has no 'data.ticker_basket' field.")
+        return list(basket)
+    named_groups = protocol["data"].get("named_groups", {}) or {}
+    named_groups_lower = {k.lower(): v for k, v in named_groups.items()}
+    if key in named_groups_lower:
+        return list(named_groups_lower[key])
+    return [t.strip().upper() for t in value.split(",") if t.strip()]
+
+
+def _parse_seeds(value: str | None, protocol: dict) -> list[int]:
+    """Resolve --seeds into a concrete list of integers."""
+    if value is None or value.strip() == "":
+        return list(protocol["seeds"])
+    if value.strip().lower() == "default":
+        return list(protocol["seeds"])
+    if value.strip().lower() == "extended":
+        ext = protocol.get("seeds_extended")
+        if not ext:
+            raise ValueError("Protocol has no 'seeds_extended' field.")
+        return list(ext)
+    return [int(s.strip()) for s in value.split(",") if s.strip()]
+
+
+def _parse_folds(value: str | None, protocol: dict) -> list[dict]:
+    """Resolve --folds into a concrete list of fold dicts.
+
+    Each fold dict has shape:
+        {"fold_id": str, "train": [start, end], "test": [start, end], "notes": str}
+
+    Accepted values:
+        - None or "" or "test" : single fold spanning the legacy splits.test window
+          (training and test ranges are taken from protocol.splits).
+        - "all" : every entry of protocol.walk_forward_folds.
+        - comma-separated list of fold_ids, e.g. "wf_2022_2023,wf_2024_2025".
+    """
+    if value is None or value.strip() == "" or value.strip().lower() == "test":
+        return [{
+            "fold_id": "test",
+            "train": list(protocol["splits"]["train"]),
+            "test":  list(protocol["splits"]["test"]),
+            "notes": "Legacy single-fold test window from protocol.splits.test.",
+        }]
+    folds = protocol.get("walk_forward_folds", [])
+    by_id = {f["fold_id"]: f for f in folds}
+    if value.strip().lower() == "all":
+        return list(folds)
+    requested = [s.strip() for s in value.split(",") if s.strip()]
+    missing = [r for r in requested if r not in by_id]
+    if missing:
+        raise ValueError(f"Unknown walk-forward fold ids: {missing}. "
+                         f"Available: {list(by_id.keys())}")
+    return [by_id[r] for r in requested]
+
+
+def add_common_cli(parser: argparse.ArgumentParser) -> None:
+    """Standard CLI flags shared by every runner."""
+    parser.add_argument(
+        "--tickers", default=None,
+        help="Comma-separated tickers, or 'basket' for the full multi-asset basket. "
+             "Default: legacy single ticker (protocol.data.tickers[0]).",
+    )
+    parser.add_argument(
+        "--seeds", default=None,
+        help="Comma-separated seeds, or 'default' / 'extended' for the protocol lists.",
+    )
+    parser.add_argument(
+        "--folds", default=None,
+        help="Comma-separated walk-forward fold ids, or 'test' / 'all'. "
+             "Default: legacy single test window.",
+    )
+    parser.add_argument(
+        "--timesteps", type=int, default=None,
+        help="PPO training timesteps. Default: legacy 'baseline.timesteps' / 'probabilistic_agent.timesteps' from the protocol.",
+    )
+    parser.add_argument(
+        "--initial-balance", type=float, default=None,
+        help="Starting capital in USD. Default: protocol.initial_balance or $1,000,000.",
+    )
+    parser.add_argument(
+        "--bootstrap-paths", type=int, default=0,
+        help="Number of synthetic block-bootstrapped training paths to concatenate "
+             "to the real training-window prices (0 = disabled).",
+    )
+    parser.add_argument(
+        "--tag", default=None,
+        help="Optional tag suffix appended to output filenames "
+             "(useful for distinguishing 10k vs 50k runs etc.).",
+    )
+
+
+def make_run_id(tag: str | None = None) -> str:
+    """UTC timestamp with optional tag suffix, suitable for output filenames."""
+    from datetime import UTC, datetime
+    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    return f"{stamp}_{tag}" if tag else stamp
+
+
+def resolve_initial_balance(args: argparse.Namespace, protocol: dict) -> float:
+    if getattr(args, "initial_balance", None) is not None:
+        return float(args.initial_balance)
+    return float(protocol.get("initial_balance", 1_000_000.0))
+
+
+# Public aliases so runner code reads cleanly.
+resolve_tickers = _parse_tickers
+resolve_seeds = _parse_seeds
+resolve_folds = _parse_folds
+
+
+# --------------------------------------------------------------------------- #
+# Block-bootstrap training-data augmentation
+# (Politis & Romano, 1994 — stationary block bootstrap.)
+# --------------------------------------------------------------------------- #
+def stationary_block_bootstrap(
+    series: np.ndarray,
+    *,
+    expected_block_length: float,
+    length: int,
+    rng: np.random.Generator,
+) -> np.ndarray:
+    """Generate one bootstrap path of `length` samples from `series`.
+
+    The stationary block bootstrap (Politis & Romano, 1994) preserves
+    short-range temporal structure by sampling overlapping blocks of
+    geometrically distributed length. With expected block length L the
+    per-step probability of starting a new block is p = 1/L.
+    """
+    n = len(series)
+    if n == 0:
+        raise ValueError("Cannot bootstrap from empty series.")
+    p = 1.0 / max(expected_block_length, 1.0)
+    out = np.empty(length, dtype=series.dtype)
+    idx = int(rng.integers(0, n))
+    for t in range(length):
+        out[t] = series[idx]
+        if rng.random() < p:
+            idx = int(rng.integers(0, n))
+        else:
+            idx = (idx + 1) % n
+    return out
+
+
+def synthesize_bootstrap_prices(
+    real_prices: np.ndarray,
+    *,
+    num_paths: int,
+    expected_block_length: float,
+    seed: int,
+) -> np.ndarray:
+    """Concatenate the real price path with `num_paths` bootstrap paths.
+
+    Bootstraps the *log returns* of `real_prices` (preserving the empirical
+    return distribution and short-range autocorrelation), then re-integrates
+    into a price path that starts from the real path's last close. This is
+    the recommended way to expand a training set without leaving the
+    empirical distribution.
+    """
+    if num_paths <= 0:
+        return np.asarray(real_prices, dtype=np.float32).ravel()
+
+    real = np.asarray(real_prices, dtype=np.float32).ravel()
+    rng = np.random.default_rng(int(seed))
+
+    log_returns = np.diff(np.log(np.maximum(real, 1e-8)))
+    last_real = float(real[-1])
+
+    paths = [real]
+    for _ in range(num_paths):
+        sampled_returns = stationary_block_bootstrap(
+            log_returns,
+            expected_block_length=expected_block_length,
+            length=len(log_returns),
+            rng=rng,
+        )
+        levels = np.empty(len(sampled_returns) + 1, dtype=np.float32)
+        levels[0] = last_real
+        levels[1:] = last_real * np.exp(np.cumsum(sampled_returns))
+        last_real = float(levels[-1])
+        paths.append(levels)
+
+    return np.concatenate(paths).astype(np.float32)
+
+
+def maybe_bootstrap_training_prices(
+    real_prices: np.ndarray,
+    *,
+    num_paths: int,
+    protocol: dict,
+    seed: int,
+) -> np.ndarray:
+    """Apply bootstrap augmentation if `num_paths > 0`, else passthrough."""
+    if num_paths <= 0:
+        return real_prices
+    cfg = protocol.get("bootstrap", {})
+    block_len = float(cfg.get("expected_block_length", 20))
+    return synthesize_bootstrap_prices(
+        real_prices,
+        num_paths=num_paths,
+        expected_block_length=block_len,
+        seed=seed,
+    )
 
 
 def compute_metrics(portfolio_values: list[float], risk_free_rate_daily: float = 0.0) -> dict:

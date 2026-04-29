@@ -1,9 +1,60 @@
 {
   "project": "Probabilistic Deep Reinforcement Learning for Portfolio Risk Analysis",
-  "version": "phase1_protocol_v1",
-  "objective": "Preserve at least 95% of high-watermark portfolio value during severe drawdowns.",
+  "version": "phase2_protocol_v1",
+  "objective": "Maximise expected risk-adjusted return subject to a drawdown-floor capital-preservation constraint, evaluated against three named comparators (passive buy-and-hold, rule-based trailing stop-loss, baseline PPO with no uncertainty signal) on a fully reproducible protocol.",
   "data": {
     "tickers": ["SPY", "QQQ"],
+    "ticker_basket": ["SPY", "QQQ", "IWM", "XLK", "XLF", "XLE", "XLV", "XLU"],
+    "ticker_basket_notes": {
+      "SPY": "S&P 500 — broad US large cap",
+      "QQQ": "Nasdaq-100 — US large-cap tech / growth",
+      "IWM": "Russell 2000 — US small cap",
+      "XLK": "Technology sector SPDR",
+      "XLF": "Financials sector SPDR",
+      "XLE": "Energy sector SPDR",
+      "XLV": "Healthcare sector SPDR",
+      "XLU": "Utilities sector SPDR (defensive)"
+    },
+    "named_groups": {
+      "fiyins_portfolio": [
+        "AAPL", "AMAT", "AMD", "AMZN", "AVGO", "AXP", "BA", "BLK",
+        "BRK-B", "C", "CAT", "COPX", "COST", "CRM", "DIA", "EEMX",
+        "GLD", "GOOGL", "GS", "HSBC", "IAU", "IBB", "IBM", "IJR",
+        "JNJ", "JPM", "LLY", "MA", "MCD", "META", "MSFT", "NFLX",
+        "NVDA", "ORCL", "PGR", "PLTR", "PPLT", "QCOM", "QQQ", "REGN",
+        "RY", "RYTM", "SAP", "SCHB", "SCHD", "SCHF", "SCHG", "SCHK",
+        "SCHV", "SCHW", "SLV", "SNY", "SPOT", "SPY", "SPYG", "SPYV",
+        "SPYX", "TAN", "TMUS", "TSLA", "TSM", "V", "VOO", "VTI",
+        "VYM", "VYMI", "XLF", "XLI", "XLK", "XLU"
+      ],
+      "fiyins_stocks": [
+        "AAPL", "AMAT", "AMD", "AMZN", "AVGO", "AXP", "BA", "BLK",
+        "BRK-B", "C", "CAT", "COST", "CRM", "GOOGL", "GS", "HSBC",
+        "IBM", "JNJ", "JPM", "LLY", "MA", "MCD", "META", "MSFT",
+        "NFLX", "NVDA", "ORCL", "PGR", "PLTR", "QCOM", "REGN", "RY",
+        "RYTM", "SAP", "SCHW", "SNY", "SPOT", "TMUS", "TSLA", "TSM",
+        "V"
+      ],
+      "fiyins_etfs": [
+        "COPX", "DIA", "EEMX", "GLD", "IAU", "IBB", "IJR", "PPLT",
+        "QQQ", "SCHB", "SCHD", "SCHF", "SCHG", "SCHK", "SCHV", "SLV",
+        "SPY", "SPYG", "SPYV", "SPYX", "TAN", "VOO", "VTI", "VYM",
+        "VYMI", "XLF", "XLI", "XLK", "XLU"
+      ]
+    },
+    "named_groups_notes": {
+      "fiyins_portfolio": "Live holdings as of April 2026: 41 single-name equities and 29 ETFs across the Yochaa and Bamboo brokerage accounts. (The earlier 42-ticker watchlist split has been collapsed into a single live-holdings group now that all watchlist positions have been opened.)",
+      "fiyins_stocks": "The 41 single-name equities subset of fiyins_portfolio; useful for stock-only analyses.",
+      "fiyins_etfs": "The 29 ETF holdings subset of fiyins_portfolio; useful for ETF-only analyses.",
+      "ticker_normalisations": {
+        "HSBC": "Listed as 'HSBS' in source; corrected.",
+        "DIA": "Listed as 'DJI' in source; DJI is a non-tradable index, DIA is the corresponding SPDR Dow Jones Industrial Average ETF.",
+        "BRK-B": "Berkshire Hathaway Class B; the retail-tradable share class.",
+        "SNY": "Sanofi US ADR ticker.",
+        "EEMX": "Listed as 'SPYM/EEMX' in source; SPYM is not a valid ticker, EEMX (iShares ESG MSCI EM) is.",
+        "skipped": "IBBQ — not a recognised ticker; skipped from the source list."
+      }
+    },
     "start_date": "2009-01-01",
     "end_date": "2025-12-31",
     "frequency": "1d"
@@ -13,6 +64,32 @@
     "validation": ["2019-01-01", "2021-12-31"],
     "test": ["2022-01-01", "2025-12-31"]
   },
+  "walk_forward_folds": [
+    {
+      "fold_id": "wf_2018_2019",
+      "train": ["2009-01-01", "2017-12-31"],
+      "test":  ["2018-01-01", "2019-12-31"],
+      "notes": "Late-cycle bull market test."
+    },
+    {
+      "fold_id": "wf_2020_2021",
+      "train": ["2009-01-01", "2019-12-31"],
+      "test":  ["2020-01-01", "2021-12-31"],
+      "notes": "Includes COVID flash crash (Feb-Mar 2020) and recovery rally."
+    },
+    {
+      "fold_id": "wf_2022_2023",
+      "train": ["2009-01-01", "2021-12-31"],
+      "test":  ["2022-01-01", "2023-12-31"],
+      "notes": "Includes 2022 bear market and 2023 rate-hike cycle."
+    },
+    {
+      "fold_id": "wf_2024_2025",
+      "train": ["2009-01-01", "2023-12-31"],
+      "test":  ["2024-01-01", "2025-12-31"],
+      "notes": "Most recent two-year out-of-time window."
+    }
+  ],
   "shock_periods": [
     {
       "name": "covid_crash",
@@ -36,6 +113,21 @@
     "capital_preservation_rate_95pct_hwm"
   ],
   "seeds": [7, 19, 42],
+  "seeds_extended": [7, 13, 19, 23, 29, 37, 42, 53, 67, 89],
+  "training_budget": {
+    "smoke": 10000,
+    "full": 50000,
+    "default": 10000,
+    "notes": "Use 'smoke' for quick CPU smoke tests, 'full' for the headline reruns. The legacy 'baseline.timesteps' and 'probabilistic_agent.timesteps' fields below are kept for backwards compatibility with existing runners."
+  },
+  "initial_balance": 1000000.0,
+  "bootstrap": {
+    "enabled": false,
+    "method": "stationary_block",
+    "expected_block_length": 20,
+    "num_paths": 32,
+    "notes": "Politis & Romano (1994) stationary block bootstrap; resamples blocks of historical log returns to expand the effective training set without leaving the empirical return distribution."
+  },
   "baseline": {
     "model_name": "ppo_standalone",
     "timesteps": 10000
