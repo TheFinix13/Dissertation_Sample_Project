@@ -1,0 +1,472 @@
+/Users/the1finix/.matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /var/folders/b8/jqck4r_n7nl6c5w3239hxtw80000gn/T/matplotlib-mgjkda2k because there was an issue with the default path (/Users/the1finix/.matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Matplotlib is building the font cache; this may take a moment.
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:472: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Open"] = df["Open"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:473: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj High"] = df["High"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:474: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Low"] = df["Low"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/scrapers/history.py:485: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df['Volume'] = df['Volume'].fillna(0).astype(np.int64)
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:472: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Open"] = df["Open"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:473: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj High"] = df["High"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:474: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Low"] = df["Low"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/scrapers/history.py:485: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df['Volume'] = df['Volume'].fillna(0).astype(np.int64)
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:472: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Open"] = df["Open"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:473: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj High"] = df["High"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:474: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Low"] = df["Low"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/scrapers/history.py:485: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df['Volume'] = df['Volume'].fillna(0).astype(np.int64)
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:567: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  splits["Stock Splits"] = splits["numerator"] / splits["denominator"]
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:472: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Open"] = df["Open"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:473: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj High"] = df["High"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:474: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Low"] = df["Low"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/scrapers/history.py:485: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df['Volume'] = df['Volume'].fillna(0).astype(np.int64)
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:472: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Open"] = df["Open"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:473: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj High"] = df["High"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:474: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Low"] = df["Low"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/scrapers/history.py:485: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df['Volume'] = df['Volume'].fillna(0).astype(np.int64)
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:567: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  splits["Stock Splits"] = splits["numerator"] / splits["denominator"]
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:472: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Open"] = df["Open"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:473: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj High"] = df["High"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:474: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Low"] = df["Low"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/scrapers/history.py:485: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df['Volume'] = df['Volume'].fillna(0).astype(np.int64)
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:472: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Open"] = df["Open"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:473: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj High"] = df["High"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:474: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Low"] = df["Low"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/scrapers/history.py:485: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df['Volume'] = df['Volume'].fillna(0).astype(np.int64)
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:567: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  splits["Stock Splits"] = splits["numerator"] / splits["denominator"]
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:472: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Open"] = df["Open"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:473: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj High"] = df["High"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/utils.py:474: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df["Adj Low"] = df["Low"] * ratio
+/Users/the1finix/Documents/GitHub/portfolio-risk-drl/venv/lib/python3.14/site-packages/yfinance/scrapers/history.py:485: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+A typical example is when you are setting values in a column of a DataFrame, like:
+
+df["col"][row_indexer] = value
+
+Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+  df['Volume'] = df['Volume'].fillna(0).astype(np.int64)
+SPY   seed=  7 ts=50000 bs=0: final=1632106.09, sharpe=0.7251, max_dd=0.2081, preservation=0.9963
+SPY   seed= 13 ts=50000 bs=0: final=1625374.50, sharpe=0.7083, max_dd=0.2159, preservation=0.9963
+SPY   seed= 19 ts=50000 bs=0: final=1637045.37, sharpe=0.7311, max_dd=0.2067, preservation=0.9963
+SPY   seed= 23 ts=50000 bs=0: final=1264467.21, sharpe=0.7012, max_dd=0.1046, preservation=0.9979
+SPY   seed= 29 ts=50000 bs=0: final=1630869.37, sharpe=0.7188, max_dd=0.2122, preservation=0.9963
+SPY   seed= 37 ts=50000 bs=0: final=1644865.77, sharpe=0.7545, max_dd=0.2001, preservation=0.9963
+SPY   seed= 42 ts=50000 bs=0: final=1627731.33, sharpe=0.7130, max_dd=0.2143, preservation=0.9963
+SPY   seed= 53 ts=50000 bs=0: final=1628301.77, sharpe=0.7126, max_dd=0.2155, preservation=0.9963
+SPY   seed= 67 ts=50000 bs=0: final=1646944.95, sharpe=0.7516, max_dd=0.1964, preservation=0.9963
+SPY   seed= 89 ts=50000 bs=0: final=1637874.44, sharpe=0.7336, max_dd=0.2039, preservation=0.9963
+QQQ   seed=  7 ts=50000 bs=0: final=1828762.54, sharpe=0.6853, max_dd=0.2702, preservation=0.9778
+QQQ   seed= 13 ts=50000 bs=0: final=987697.49, sharpe=-0.2111, max_dd=0.0280, preservation=0.9839
+QQQ   seed= 19 ts=50000 bs=0: final=1840879.58, sharpe=0.6998, max_dd=0.2612, preservation=0.9778
+QQQ   seed= 23 ts=50000 bs=0: final=982989.96, sharpe=-0.2882, max_dd=0.0296, preservation=0.9792
+QQQ   seed= 29 ts=50000 bs=0: final=1841248.79, sharpe=0.6958, max_dd=0.2672, preservation=0.9778
+QQQ   seed= 37 ts=50000 bs=0: final=1839299.91, sharpe=0.7032, max_dd=0.2646, preservation=0.9778
+QQQ   seed= 42 ts=50000 bs=0: final=1813454.33, sharpe=0.6702, max_dd=0.2799, preservation=0.9778
+QQQ   seed= 53 ts=50000 bs=0: final=1834385.45, sharpe=0.6899, max_dd=0.2726, preservation=0.9778
+QQQ   seed= 67 ts=50000 bs=0: final=1866652.38, sharpe=0.7243, max_dd=0.2478, preservation=0.9778
+QQQ   seed= 89 ts=50000 bs=0: final=1836656.09, sharpe=0.6972, max_dd=0.2613, preservation=0.9778
+IWM   seed=  7 ts=50000 bs=0: final=1357317.52, sharpe=0.3631, max_dd=0.2750, preservation=0.9725
+IWM   seed= 13 ts=50000 bs=0: final=1320378.68, sharpe=0.3181, max_dd=0.2750, preservation=0.9725
+IWM   seed= 19 ts=50000 bs=0: final=1343338.56, sharpe=0.3462, max_dd=0.2750, preservation=0.9725
+IWM   seed= 23 ts=50000 bs=0: final=1016917.85, sharpe=0.2142, max_dd=0.0302, preservation=0.9968
+IWM   seed= 29 ts=50000 bs=0: final=1329037.87, sharpe=0.3386, max_dd=0.2685, preservation=0.9733
+IWM   seed= 37 ts=50000 bs=0: final=1328838.18, sharpe=0.3328, max_dd=0.2750, preservation=0.9725
+IWM   seed= 42 ts=50000 bs=0: final=1316132.50, sharpe=0.3135, max_dd=0.2750, preservation=0.9725
+IWM   seed= 53 ts=50000 bs=0: final=1327318.96, sharpe=0.3268, max_dd=0.2750, preservation=0.9725
+IWM   seed= 67 ts=50000 bs=0: final=1351530.20, sharpe=0.3562, max_dd=0.2750, preservation=0.9725
+IWM   seed= 89 ts=50000 bs=0: final=1346922.27, sharpe=0.3488, max_dd=0.2750, preservation=0.9725
+XLK   seed=  7 ts=50000 bs=0: final=1961766.98, sharpe=0.7023, max_dd=0.2566, preservation=0.9607
+XLK   seed= 13 ts=50000 bs=0: final=1948517.92, sharpe=0.7305, max_dd=0.2531, preservation=0.9610
+XLK   seed= 19 ts=50000 bs=0: final=1959875.05, sharpe=0.6987, max_dd=0.2566, preservation=0.9607
+XLK   seed= 23 ts=50000 bs=0: final=981291.81, sharpe=-0.3121, max_dd=0.0324, preservation=0.9775
+XLK   seed= 29 ts=50000 bs=0: final=2000974.66, sharpe=0.7336, max_dd=0.2566, preservation=0.9607
+XLK   seed= 37 ts=50000 bs=0: final=1952176.08, sharpe=0.6909, max_dd=0.2585, preservation=0.9607
+XLK   seed= 42 ts=50000 bs=0: final=1930225.62, sharpe=0.6736, max_dd=0.2671, preservation=0.9607
+XLK   seed= 53 ts=50000 bs=0: final=1941181.01, sharpe=0.6806, max_dd=0.2654, preservation=0.9607
+XLK   seed= 67 ts=50000 bs=0: final=1959306.93, sharpe=0.6971, max_dd=0.2566, preservation=0.9607
+XLK   seed= 89 ts=50000 bs=0: final=1944696.75, sharpe=0.6888, max_dd=0.2566, preservation=0.9607
+XLF   seed=  7 ts=50000 bs=0: final=1589538.79, sharpe=0.6750, max_dd=0.1887, preservation=0.9926
+XLF   seed= 13 ts=50000 bs=0: final=991410.20, sharpe=-0.2375, max_dd=0.0258, preservation=0.9766
+XLF   seed= 19 ts=50000 bs=0: final=1000268.62, sharpe=0.0069, max_dd=0.0242, preservation=0.9853
+XLF   seed= 23 ts=50000 bs=0: final=998228.06, sharpe=-0.0465, max_dd=0.0234, preservation=0.9833
+XLF   seed= 29 ts=50000 bs=0: final=1555172.79, sharpe=0.6279, max_dd=0.2068, preservation=0.9926
+XLF   seed= 37 ts=50000 bs=0: final=1557120.90, sharpe=0.6343, max_dd=0.2049, preservation=0.9926
+XLF   seed= 42 ts=50000 bs=0: final=1541162.59, sharpe=0.6100, max_dd=0.2151, preservation=0.9926
+XLF   seed= 53 ts=50000 bs=0: final=993187.87, sharpe=-0.1862, max_dd=0.0242, preservation=0.9783
+XLF   seed= 67 ts=50000 bs=0: final=1570105.76, sharpe=0.6461, max_dd=0.1990, preservation=0.9926
+XLF   seed= 89 ts=50000 bs=0: final=1577072.39, sharpe=0.6545, max_dd=0.1968, preservation=0.9926
+XLE   seed=  7 ts=50000 bs=0: final=1383221.50, sharpe=0.3867, max_dd=0.1983, preservation=0.9573
+XLE   seed= 13 ts=50000 bs=0: final=1420758.91, sharpe=0.3890, max_dd=0.2014, preservation=0.9561
+XLE   seed= 19 ts=50000 bs=0: final=1302051.52, sharpe=0.4893, max_dd=0.1494, preservation=0.9843
+XLE   seed= 23 ts=50000 bs=0: final=1148707.14, sharpe=0.4932, max_dd=0.0892, preservation=0.9870
+XLE   seed= 29 ts=50000 bs=0: final=1144769.22, sharpe=0.3488, max_dd=0.0983, preservation=0.9748
+XLE   seed= 37 ts=50000 bs=0: final=1249938.04, sharpe=0.4406, max_dd=0.1194, preservation=0.9765
+XLE   seed= 42 ts=50000 bs=0: final=1335880.40, sharpe=0.3930, max_dd=0.1781, preservation=0.9658
+XLE   seed= 53 ts=50000 bs=0: final=1234838.62, sharpe=0.4065, max_dd=0.1482, preservation=0.9764
+XLE   seed= 67 ts=50000 bs=0: final=1411969.40, sharpe=0.3780, max_dd=0.2014, preservation=0.9560
+XLE   seed= 89 ts=50000 bs=0: final=1446387.97, sharpe=0.3864, max_dd=0.2293, preservation=0.9560
+XLV   seed=  7 ts=50000 bs=0: final=1272945.67, sharpe=0.4424, max_dd=0.1711, preservation=0.9855
+XLV   seed= 13 ts=50000 bs=0: final=1267932.11, sharpe=0.4140, max_dd=0.1711, preservation=0.9855
+XLV   seed= 19 ts=50000 bs=0: final=1266168.09, sharpe=0.4257, max_dd=0.1691, preservation=0.9856
+XLV   seed= 23 ts=50000 bs=0: final=1249585.08, sharpe=0.4231, max_dd=0.1674, preservation=0.9857
+XLV   seed= 29 ts=50000 bs=0: final=1267500.96, sharpe=0.4301, max_dd=0.1708, preservation=0.9855
+XLV   seed= 37 ts=50000 bs=0: final=1266272.89, sharpe=0.4176, max_dd=0.1711, preservation=0.9855
+XLV   seed= 42 ts=50000 bs=0: final=1265412.57, sharpe=0.4124, max_dd=0.1711, preservation=0.9855
+XLV   seed= 53 ts=50000 bs=0: final=1259878.28, sharpe=0.4194, max_dd=0.1651, preservation=0.9860
+XLV   seed= 67 ts=50000 bs=0: final=1272958.96, sharpe=0.4370, max_dd=0.1711, preservation=0.9855
+XLV   seed= 89 ts=50000 bs=0: final=1267508.99, sharpe=0.4145, max_dd=0.1711, preservation=0.9855
+XLU   seed=  7 ts=50000 bs=0: final=1394458.92, sharpe=0.5138, max_dd=0.2376, preservation=0.9296
+XLU   seed= 13 ts=50000 bs=0: final=1401147.39, sharpe=0.5073, max_dd=0.2463, preservation=0.9298
+XLU   seed= 19 ts=50000 bs=0: final=1404405.09, sharpe=0.4993, max_dd=0.2515, preservation=0.9296
+XLU   seed= 23 ts=50000 bs=0: final=1159533.78, sharpe=0.5328, max_dd=0.1188, preservation=0.9654
+XLU   seed= 29 ts=50000 bs=0: final=1394175.92, sharpe=0.5121, max_dd=0.2392, preservation=0.9299
+XLU   seed= 37 ts=50000 bs=0: final=1384119.64, sharpe=0.5004, max_dd=0.2414, preservation=0.9296
+XLU   seed= 42 ts=50000 bs=0: final=1304187.89, sharpe=0.5313, max_dd=0.1878, preservation=0.9492
+XLU   seed= 53 ts=50000 bs=0: final=1380469.36, sharpe=0.5140, max_dd=0.2301, preservation=0.9306
+XLU   seed= 67 ts=50000 bs=0: final=1401083.72, sharpe=0.5246, max_dd=0.2348, preservation=0.9296
+XLU   seed= 89 ts=50000 bs=0: final=1404576.00, sharpe=0.4995, max_dd=0.2512, preservation=0.9296
+
+Wrote probabilistic results:
+- /Users/the1finix/Documents/GitHub/portfolio-risk-drl/experiments/results/probabilistic_20260429T124934Z_extbasket.json
+- /Users/the1finix/Documents/GitHub/portfolio-risk-drl/experiments/results/probabilistic_20260429T124934Z_extbasket.csv

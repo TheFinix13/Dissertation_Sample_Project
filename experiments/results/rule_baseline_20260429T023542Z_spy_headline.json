@@ -1,0 +1,36 @@
+[
+  {
+    "final_portfolio_value": 1233203.0118427838,
+    "annualized_return": 0.054187338013116995,
+    "annualized_volatility": 0.12453563772591751,
+    "sharpe_ratio": 0.4237349892242817,
+    "max_drawdown": 0.2522865203910417,
+    "var_95": -0.013954158325610422,
+    "var_95_violation_rate": 0.04995004995004995,
+    "capital_preservation_rate_95pct_hwm": 0.9905297386614297,
+    "meets_95pct_preservation_goal": true,
+    "agent": "stop_loss_5pct",
+    "ticker": "SPY",
+    "seed": -1,
+    "drawdown_floor": 0.05,
+    "fast_window": 20,
+    "slow_window": 50
+  },
+  {
+    "final_portfolio_value": 1241164.3295769058,
+    "annualized_return": 0.055896520224523016,
+    "annualized_volatility": 0.13315854848075775,
+    "sharpe_ratio": 0.40846137217784717,
+    "max_drawdown": 0.2994737928067983,
+    "var_95": -0.01445616382287973,
+    "var_95_violation_rate": 0.04995004995004995,
+    "capital_preservation_rate_95pct_hwm": 0.9951186923772687,
+    "meets_95pct_preservation_goal": true,
+    "agent": "stop_loss_10pct",
+    "ticker": "SPY",
+    "seed": -1,
+    "drawdown_floor": 0.1,
+    "fast_window": 20,
+    "slow_window": 50
+  }
+]

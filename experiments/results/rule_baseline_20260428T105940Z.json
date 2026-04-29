@@ -1,0 +1,34 @@
+[
+  {
+    "final_portfolio_value": 1233202.3585271714,
+    "annualized_return": 0.05418719741716899,
+    "annualized_volatility": 0.12453572450922763,
+    "sharpe_ratio": 0.423733623014283,
+    "max_drawdown": 0.2522862240775524,
+    "var_95": -0.01395429040130125,
+    "var_95_violation_rate": 0.04995004995004995,
+    "capital_preservation_rate_95pct_hwm": 0.9905298271139523,
+    "meets_95pct_preservation_goal": true,
+    "agent": "stop_loss_5pct",
+    "seed": -1,
+    "drawdown_floor": 0.05,
+    "fast_window": 20,
+    "slow_window": 50
+  },
+  {
+    "final_portfolio_value": 1241164.2169988686,
+    "annualized_return": 0.0558964961136898,
+    "annualized_volatility": 0.13315865814379257,
+    "sharpe_ratio": 0.40846086430625783,
+    "max_drawdown": 0.29947373793493004,
+    "var_95": -0.014456163822877954,
+    "var_95_violation_rate": 0.04995004995004995,
+    "capital_preservation_rate_95pct_hwm": 0.9951186923772686,
+    "meets_95pct_preservation_goal": true,
+    "agent": "stop_loss_10pct",
+    "seed": -1,
+    "drawdown_floor": 0.1,
+    "fast_window": 20,
+    "slow_window": 50
+  }
+]

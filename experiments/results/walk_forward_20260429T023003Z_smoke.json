@@ -1,0 +1,40 @@
+[
+  {
+    "final_portfolio_value": 987851.9917212026,
+    "annualized_return": -0.00640952611162986,
+    "annualized_volatility": 0.012009779404510233,
+    "sharpe_ratio": -0.5354028672121064,
+    "max_drawdown": 0.018737609940902455,
+    "var_95": 0.0,
+    "var_95_violation_rate": 0.022964509394572025,
+    "capital_preservation_rate_95pct_hwm": 0.9832145872533217,
+    "meets_95pct_preservation_goal": true,
+    "agent": "ppo_standalone",
+    "ticker": "SPY",
+    "fold_id": "wf_2022_2023",
+    "seed": 7,
+    "timesteps": 5000,
+    "bootstrap_paths": 0,
+    "train_window": "2009-01-01/2021-12-31",
+    "test_window": "2022-01-01/2023-12-31"
+  },
+  {
+    "final_portfolio_value": 972426.1834686449,
+    "annualized_return": -0.014602562356283497,
+    "annualized_volatility": 0.03991144794271754,
+    "sharpe_ratio": -0.3685702084532416,
+    "max_drawdown": 0.059309240660773255,
+    "var_95": -0.003780257391717967,
+    "var_95_violation_rate": 0.05010438413361169,
+    "capital_preservation_rate_95pct_hwm": 0.9678257375099998,
+    "meets_95pct_preservation_goal": true,
+    "agent": "ppo_with_uncertainty_guard",
+    "ticker": "SPY",
+    "fold_id": "wf_2022_2023",
+    "seed": 7,
+    "timesteps": 5000,
+    "bootstrap_paths": 0,
+    "train_window": "2009-01-01/2021-12-31",
+    "test_window": "2022-01-01/2023-12-31"
+  }
+]
