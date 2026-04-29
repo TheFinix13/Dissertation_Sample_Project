@@ -8,8 +8,8 @@
 ## Cover information
 
 - **Name:** Fiyin Akano
-- **URN:** [FILL IN]
-- **Supervisor:** [FILL IN]
+- **URN:** 6962514
+- **Supervisor:** Dr. Cuong Nguyen
 - **Second supervisor (if applicable):** [FILL IN]
 - **Date of meeting:** [FILL IN]
 
@@ -17,31 +17,59 @@
 
 ## Project title
 
-**Probabilistic Deep Reinforcement Learning for Portfolio Risk Analysis: an
-uncertainty-aware policy for capital preservation under regime stress.**
+**Probabilistic Deep Reinforcement Learning for Portfolio Risk Analysis:
+drawdown-constrained portfolio control with an uncertainty-aware
+reinforcement-learning policy.**
+
+---
+
+## Problem statement
+
+Many investors and institutional mandates are required to keep their
+portfolio's loss from peak (the maximum drawdown) below a stated floor — a
+single-digit percentage in many institutional settings — while still earning
+a return that beats holding cash and ideally beats a passive index. The
+standard answers to that requirement are static convex optimisations
+(mean–variance, risk parity) or fixed-rule overlays (stop losses, volatility
+targeting). Neither answer adapts to within-window regime change, and
+neither consumes a model's own confidence in its forecast. The dissertation
+asks whether a Proximal Policy Optimization (PPO) agent that conditions on
+the predictive uncertainty produced by a DeepAR-style probabilistic
+recurrent network can sit on a more attractive point of the
+return-versus-drawdown trade-off than three named alternatives: passive
+buy-and-hold, a rule-based stop-loss policy of the kind a discretionary
+investor would actually use, and a baseline PPO that sees no uncertainty
+signal. The headline result is the joint of risk-adjusted return and
+preservation against the running high-watermark; meeting either half on its
+own is trivial (cash gives perfect preservation and zero return), so the
+design is judged on whether it satisfies both at once on a test window
+containing real macro shocks.
 
 ---
 
 ## Objectives (latest version)
 
-I have refined the original objectives during Phase 0 and Phase 1. The current
-working set is:
+The objectives have been refined during Phase 0 and Phase 1 in light of
+supervisor feedback. The current working set is:
 
-- **O1.** See whether an explicit forecast-uncertainty signal — produced by a
-  DeepAR-style probabilistic LSTM — can be plugged into a PPO policy and turn
-  it into something that behaves with risk in mind on US equity index data.
-- **O2.** Show, on a held-out test window that contains real shock periods,
-  whether the resulting agent preserves at least 95% of its high-watermark
-  portfolio value relative to a baseline PPO and to passive buy-and-hold and
-  all-cash benchmarks.
-- **O3.** Pin down a reproducible evaluation protocol: fixed splits, fixed
-  seeds, scripted artifacts, and a small shared metric set (final value,
-  Sharpe, max drawdown, VaR-95 violation rate, preservation ratio against the
-  running high-watermark). The protocol is the thing that lets me make a
-  fair, like-for-like claim.
-- **O4.** Based on the evidence from O1–O3, take a position on when an
-  uncertainty signal helps a portfolio control loop, and — just as
-  importantly — when it doesn't.
+- **O1.** To study whether an explicit forecast-uncertainty signal, modelled
+  with a DeepAR-style probabilistic LSTM and consumed by a PPO policy as
+  both a state feature and a hard guard on new long-side actions, allows
+  the agent to sit closer to the return-versus-drawdown frontier than
+  uncertainty-blind alternatives on US equity index data.
+- **O2.** To evaluate the resulting policy on a held-out window containing
+  real macro shocks (2022 to 2025) against three named comparators — passive
+  buy-and-hold, a rule-based stop-loss policy, and a baseline PPO with no
+  uncertainty signal — using a metric set in which the headline criteria are
+  Sharpe ratio, terminal value relative to buy-and-hold, and the
+  capital-preservation ratio against the running high-watermark.
+- **O3.** To pin down a fully reproducible evaluation protocol of fixed
+  splits, fixed seeds, scripted artefacts and a shared metric set, so that
+  any comparison made in this dissertation is genuinely like-for-like and
+  can be reproduced from the public repository in a single command sequence.
+- **O4.** To take an honest position, on the strength of O1–O3, on when an
+  uncertainty signal earns a place in a portfolio control loop and, just as
+  important, on when it does not.
 
 ---
 
@@ -176,37 +204,87 @@ config file and a small set of scripts.
 | 1.1 Shared protocol + metrics | Done | `experiments/configs/dissertation_protocol.json`, `experiments/common.py` |
 | 1.2 Reproducible baseline / probabilistic / benchmark runners | Done | three runners, seeded |
 | 1.3 Dissertation report + supervisor pack | Done | `reports/generated/` |
-| 1.4 Robustness (multi-ticker, ablations, shock windows) | In progress | Phase 2 (see plan) |
+| 1.4 Rule-based stop-loss comparator (5 % and 10 % variants) | Done | `experiments/run_rule_baselines.py` |
+| 1.5 Robustness (multi-ticker, walk-forward, ablations, shock windows) | In progress | Scheduled May–August (see future plan) |
 
-### Current results (mean across 3 seeds, test window)
+### Current results (mean across 3 seeds, test window 2022–2025)
 
-| Agent | Final value (USD) | Sharpe | Max drawdown | VaR-95 violation | Preservation vs HWM |
-|---|---:|---:|---:|---:|---:|
-| baseline PPO            | 985,463.41 | −0.4285 | 0.0209 | 0.0105 | 0.9811 |
-| probabilistic PPO       | 1,618,577.16 | 0.8511 | 0.1833 | 0.0500 | 0.9965 |
-| buy-and-hold (SPY)      | 1,520,353.38 | — | 0.2450 | — | — |
+| Agent | Final value (USD) | Sharpe | Max drawdown | VaR-95 violation | Terminal preservation vs HWM | Path preservation (1 − MDD) |
+|---|---:|---:|---:|---:|---:|---:|
+| baseline PPO              | 985,463    | −0.4285 | 0.0209 | 0.0105 | 0.9811 | 0.9791 |
+| **probabilistic PPO**     | **1,618,577** | **0.8511** | **0.1833** | **0.0500** | **0.9965** | **0.8167** |
+| rule-based stop-loss (5%) | 1,233,203  | 0.4237  | 0.2523 | 0.0500 | 0.9905 | 0.7477 |
+| rule-based stop-loss (10%)| 1,241,164  | 0.4085  | 0.2995 | 0.0500 | 0.9951 | 0.7005 |
+| buy-and-hold (SPY)        | 1,520,353  | 0.5867  | 0.2450 | 0.0500 | 0.9951 | 0.7550 |
+| all-cash                  | 1,000,000  | 0.0000  | 0.0000 | 0.0000 | 1.0000 | 1.0000 |
 
 Reference figure: `reports/generated/charts/final_value_comparison.png`.
 Equity curves and the uncertainty signal are in
 `equity_curve_comparison.png` and `uncertainty_signal.png` respectively.
+The two new rule-based comparators (5 % and 10 % trailing stop-losses with a
+20/50-day moving-average crossover for re-entry) live in
+`experiments/run_rule_baselines.py`.
+
+### 70-ticker test universe — Phase-1 robustness (§5.5)
+
+The Phase-1 robustness study runs the same four-agent comparison on a 70-ticker
+diversified-equity test universe — 41 single-name US large-cap equities (technology,
+payments and financial services, healthcare, consumer, industrials) and 29
+exchange-traded funds (broad-market indices, sector SPDRs, dividend ETFs,
+thematic exposures and commodity funds) — on the same 2022–2025 test window
+with the same metric definitions and the same four-agent comparison set.
+
+| strategy | mean terminal value | mean Sharpe | mean Max-DD |
+|---|---:|---:|---:|
+| Baseline PPO (no uncertainty) | $989,430 | −0.23 | 0.033 |
+| **Probabilistic PPO (this work)** | **$1,998,817** | **+0.60** | **0.225** |
+| Manual 5 % trailing stop | $1,531,163 | +0.36 | 0.305 |
+| Passive buy-and-hold | $2,099,838 | +0.54 | 0.370 |
+
+Headline findings on the 70-ticker test universe:
+
+- **Drawdown reduced versus passive buy-and-hold on 70 of 70 tickers (100 % of the universe)**, with an average reduction of 14.5 percentage points (mean drawdown cut from 37 % to 22.5 % — a 39 % relative reduction). This is the strongest single number in the dissertation.
+- **Probabilistic agent beat the manually-tuned 5 % trailing stop on 61 of 70 tickers (87 %)** in terminal value, and on essentially every ticker in Sharpe ratio — direct empirical answer to the previous-meeting question on whether the AI agent beats a manually-tuned stop-loss alternative.
+- Cost in mean terminal value vs buy-and-hold: ≈ 5 % give-up in mean upside in exchange for ≈ 39 % reduction in mean drawdown. The trade institutional risk officers run.
+- Where the agent loses (45 of 70 tickers in terminal value, all winning on drawdown), the losses cluster in two diagnosable regimes: persistent low-uncertainty bull-market trends in single names (NVDA, AVGO, LLY) and very-low-drawdown defensives (JNJ, MCD, SCHD, GLD). Sector-aware uncertainty-quantile calibration is the targeted Phase-2 fix.
+- The full per-ticker table is in Appendix B of `Main_Dissertation_Draft.docx`. A plain-English companion narrative of the same evidence — written for a non-quantitative reader, with finance context and visualisations — lives in `Fiyins_Dissertation.docx`.
 
 ### How to read these numbers
 
 A few things are worth flagging before this table is read in isolation:
 
-- The probabilistic agent meets the headline objective (preservation against
-  the high-watermark above 0.95) and finishes above passive buy-and-hold.
-  The baseline ends roughly where it started.
+- The headline criterion is the **joint** of Sharpe ratio and the
+  capital-preservation ratio against the running high-watermark, not
+  preservation alone. Meeting either half on its own is trivial: an
+  all-cash policy achieves preservation 1.0 with zero return, and a
+  return-only policy ignores the constraint entirely. The probabilistic
+  agent meets both halves; its Sharpe and terminal value finish above
+  passive buy-and-hold and its preservation ratio sits above 0.95 across
+  all three seeds. The baseline meets neither half: it ends roughly where
+  it started with a slightly negative Sharpe.
+- The third comparator — a rule-based stop-loss policy of the kind a
+  discretionary investor would actually use — has now been implemented
+  (`experiments/run_rule_baselines.py`). Two variants (5 % and 10 %
+  trailing stop with a 20/50-day moving-average re-entry rule) are run
+  on the same protocol. They sit between cash and buy-and-hold on return
+  and they end with adequate terminal preservation, but they incur path
+  drawdowns *larger* than buy-and-hold's: the trailing stop fires only
+  after the drawdown has begun, the moving-average re-entry rule is slow,
+  and the policy sits in cash through much of the post-2022 recovery.
+  This is a directly measured answer to the supervisor's "AI beats manual
+  stop-losses" question. The probabilistic agent earns roughly $380,000
+  more than the better rule-based variant over the four-year window,
+  with twice the Sharpe and a smaller path drawdown.
 - Max drawdown on the baseline looks small only because the baseline barely
   compounds in the first place. There is little to draw down from. The
   probabilistic agent compounds to a higher peak, gives some of it back,
   and still finishes well above the baseline. Preservation against the
-  high-watermark is the metric that matches my objective; max drawdown is
+  high-watermark is the metric that matches the objective; max drawdown is
   reported for transparency, not as a contradicting result.
 - These numbers are provisional. The plan below explicitly tests how
-  fragile they are to ticker choice, threshold choice, and which part of
-  the design is doing the work (the state feature, the trade-size shrink,
-  or the entry guard).
+  fragile they are to ticker choice, time period (walk-forward), threshold
+  choice, and which part of the design is doing the work (the state
+  feature, the trade-size shrink, or the entry guard).
 
 ### Reproducibility
 
@@ -228,32 +306,38 @@ point for someone reading the project for the first time.
 
 ## Future plan
 
-The phasing below maps onto the form's structure (10–11 weeks across June and
-July, four weeks in August, September for the viva). Milestones are tied to
-objectives O1–O4.
+The phasing below maps onto the form's structure and reflects the revised
+direction agreed with the supervisor. Each scheduled task is tied to a
+milestone with a target date. Milestones are also tied to objectives O1–O4.
 
 | Working period | Tasks to undertake | Milestones to meet (with target dates) |
 |---|---|---|
-| **May 2026 (remaining)** | Sweep `uncertainty_quantile_stop` over {0.7, 0.8, 0.9}; ablation of the design — *uncertainty as a state feature only* vs *as a trading guard only* vs *both*; rerun the protocol with longer training to check the Phase-1 numbers are not under-trained. | M1: ablation results checked into `experiments/results/` (by **end of May**). |
-| **June 2026 (4 weeks)** | Multi-ticker robustness (`SPY`, `QQQ`, plus a small set of sector ETFs); event-window analysis on the protocol shock periods (COVID crash, Ukraine-war onset). Begin Chapter 2 (Background) and Chapter 3 (Methodology) drafts. | M2: multi-ticker and shock-window report with stable conclusions; M3: Chapter 2 draft to supervisor (by **end of June**). |
-| **July 2026 (4–6 weeks)** | Sensitivity to environment choices (transaction cost, max trade fraction, lookback). Final experimental sweep with locked seeds. Draft Chapter 5 (Results) and Chapter 1 (Introduction). | M4: locked final results table; M5: Chapters 1, 2, 3 and 5 first draft (by **mid- to late-July**). |
-| **August 2026 (4 weeks)** | Chapter 6 (Discussion) and Chapter 7 (Conclusion). Polish figures, integrate supervisor feedback, finalise the dissertation. Code changes from this point are bug-fix only. | M6: full draft to supervisor early August; M7: submission-ready version end August. |
-| **September 2026** | Viva preparation. Slide deck, demo of the reproducible pipeline, pre-emptive Q&A using `reports/templates/viva_qa_notes.md`. | M8: viva-ready presentation and demo by viva date. |
+| **May 2026 (remaining)** | Reframe the dissertation around drawdown-constrained risk-adjusted return (Abstract, Chapter 1, interim review). Add a Finance / Risk-Management Background sub-chapter covering MV, CVaR/ES, drawdown measures and Sortino, with notation explained. Implement the rule-based stop-loss baseline as a third comparator. Run an ablation that separates the contribution of the uncertainty state feature, the trade-size shrink, and the entry guard. Re-run the baseline and probabilistic agents with longer training (50 000 steps) and ten seeds. | M1: rule-based baseline checked in and reported alongside existing arms (mid-May). M2: ablation table and longer-training rerun (end of May). |
+| **June 2026 (4 weeks)** | Multi-asset robustness on SPY, QQQ and five sector ETFs (XLK, XLF, XLE, XLV, XLU). Walk-forward evaluation that slides the test window forward in two-year increments from 2018 onwards. Begin Chapter 2 (Background) and Chapter 3 (Methodology) full drafts. | M3: multi-asset and walk-forward report (mid-June). M4: Chapter 2 and Chapter 3 first drafts (end of June). |
+| **July 2026 (4–6 weeks)** | Sensitivity sweep on the uncertainty threshold, minimum scale, and max trade fraction. Block-bootstrap data augmentation (Politis & Romano, 1994) to expand the effective training set. Locked final results table. Draft Chapter 5 (Results) and Chapter 1 (Introduction). | M5: sensitivity and bootstrap results locked (mid-July). M6: Chapters 1, 2, 3 and 5 first drafts (end of July). |
+| **August 2026 (4 weeks)** | Start the paper-trading shadow run via Alpaca early in the month and let it accumulate two weeks of out-of-sample PnL. Write Chapter 6 (Discussion) and Chapter 7 (Conclusion). Polish figures, integrate supervisor feedback, finalise the dissertation. Code changes from this point are bug-fix only. | M7: paper-trading shadow run started (early August). M8: full draft to supervisor (mid-August). M9: paper-trading PnL added to results chapter (third week of August). M10: submission-ready version (end of August). |
+| **September 2026** | Submit by **1 September 2026**. Viva preparation: slide deck (≤12 slides, ≤20 minutes per the project handbook), demo of the reproducible pipeline, pre-emptive Q&A using `reports/templates/viva_qa_notes.md`. | M11: viva-ready presentation and demo by viva date. |
 
 ### Risks and mitigations
 
-- **Compute time.** All current runs are CPU-friendly (10k PPO timesteps,
-  three seeds). If the multi-ticker × shock-window × ablation grid grows,
-  I will batch runs overnight and accept partial-grid results for the
-  interim. None of the experiments need a GPU at this scale.
+- **Compute time.** Current runs are CPU-friendly (10k PPO timesteps, three
+  seeds). The multi-ticker × walk-forward × ablation × ten-seed grid is
+  larger but still CPU-tractable; I will batch runs overnight and accept
+  partial-grid results for any interim deliverable. None of the experiments
+  need a GPU at this scale.
 - **Data-API drift.** `yfinance` occasionally changes its column shape. The
   `_close_1d` helper used by every runner already normalises this, and the
   protocol pins explicit dates so a re-pull stays comparable.
-- **Result fragility.** The Phase-1 numbers may move under the multi-ticker
-  and ablation work. To guard against over-claiming, I will report ranges
-  across seeds and tickers in the dissertation, lead with the preservation
-  objective rather than a single point estimate of final value, and call
-  out any case where the probabilistic variant fails to beat the baseline.
+- **Result fragility.** The Phase-1 numbers may move under the multi-ticker,
+  walk-forward and ablation work. To guard against over-claiming, I will
+  report median and inter-quartile range across at least ten seeds and
+  across tickers, evaluate on multiple sliding test windows (walk-forward)
+  rather than a single one, and call out any case where the probabilistic
+  variant fails to beat the rule-based stop-loss comparator or buy-and-hold.
+- **Paper-trading dependency.** The Alpaca shadow run depends on a working
+  brokerage account and stable market hours. If the API is unavailable for
+  any portion of August, the dissertation will report whatever live PnL
+  was accumulated up to the cutoff, with the gap explicitly stated.
 
 ---
 
