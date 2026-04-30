@@ -8,7 +8,7 @@ with all student-owned sections populated from the rebuilt dissertation
 framing. The blue supervisor boxes are intentionally left empty.
 
 Run:
-    venv/bin/python reports/build_interim_review_docx.py
+    venv/bin/python reports/builders/build_interim_review_docx.py
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 RESULTS = ROOT / "experiments" / "results"
 EXPORTS = ROOT / "reports" / "generated" / "exports"
 EXPORTS.mkdir(parents=True, exist_ok=True)
@@ -525,13 +525,13 @@ def build() -> Path:
 
     add_heading(doc, "What has been built", 2)
     add_bullets(doc, [
-        "A probabilistic forecaster (experiments/run_probabilistic_agent.py): an LSTM trained with Gaussian negative log-likelihood that emits the mean and log variance of the next-step log return. The predictive standard deviation is min-max normalised across the test window into a unit-interval uncertainty score.",
+        "A probabilistic forecaster (experiments/runners/run_probabilistic_agent.py): an LSTM trained with Gaussian negative log-likelihood that emits the mean and log variance of the next-step log return. The predictive standard deviation is min-max normalised across the test window into a unit-interval uncertainty score.",
         "An uncertainty-aware trading environment (experiments/common.py:StockEnv): action space [-1, 1] over a configurable max_trade_fraction of cash, with the trade size shrunk by (1 - uncertainty_level) and floored at min_trade_scale. When the uncertainty score exceeds the protocol quantile (default 0.80) the environment blocks new long-side trades but still allows exits. Reward is the per-step log of the portfolio-value ratio multiplied by 100 for numerical scale.",
-        "A baseline PPO runner (experiments/run_baseline.py) that uses the same environment without the uncertainty coordinate or the trade-size shrinkage, so the comparison against the probabilistic variant is genuinely controlled.",
-        "A rule-based stop-loss runner (experiments/run_rule_baselines.py) implementing 5 % and 10 % trailing-stop policies with a 20/50-day moving-average crossover for re-entry. This is the directly-measured non-AI comparator that the supervisor's previous feedback asked for.",
-        "A benchmarks runner (experiments/run_benchmarks.py) that evaluates passive buy-and-hold and all-cash on the same test window. These act as sanity checks on the metric definitions as much as competitors to beat.",
+        "A baseline PPO runner (experiments/runners/run_baseline.py) that uses the same environment without the uncertainty coordinate or the trade-size shrinkage, so the comparison against the probabilistic variant is genuinely controlled.",
+        "A rule-based stop-loss runner (experiments/runners/run_rule_baselines.py) implementing 5 % and 10 % trailing-stop policies with a 20/50-day moving-average crossover for re-entry. This is the directly-measured non-AI comparator that the supervisor's previous feedback asked for.",
+        "A benchmarks runner (experiments/runners/run_benchmarks.py) that evaluates passive buy-and-hold and all-cash on the same test window. These act as sanity checks on the metric definitions as much as competitors to beat.",
         "A single evaluation protocol (experiments/configs/dissertation_protocol.json) that fixes the splits (2009-2018 train / 2019-2021 validation / 2022-2025 test), the seeds [7, 19, 42] in the headline study, and the metric set, and is read by every script. This is the bit that actually makes the comparisons fair.",
-        "A reporting layer: reports/generate_dissertation_report.py for the markdown summary, reports/build_supervisor_pack.py for the one-page chart, reports/plot_dissertation_visuals.py for the detailed figures, and Dissertation_Walkthrough.ipynb for the embedded-output review notebook.",
+        "A reporting layer: reports/builders/generate_dissertation_report.py for the markdown summary, reports/builders/build_supervisor_pack.py for the one-page chart, reports/builders/plot_dissertation_visuals.py for the detailed figures, and Dissertation_Walkthrough.ipynb for the embedded-output review notebook.",
     ])
 
     add_heading(doc, "Phase-0 to Phase-1 status table", 2)
@@ -542,11 +542,11 @@ def build() -> Path:
         ("1.1 Shared protocol + metrics", "Done", "experiments/configs/dissertation_protocol.json, experiments/common.py"),
         ("1.2 Reproducible baseline / probabilistic / benchmark runners", "Done", "Three runners, seeded"),
         ("1.3 Dissertation report + supervisor pack", "Done", "reports/generated/"),
-        ("1.4 Rule-based stop-loss comparator (5 % and 10 % variants)", "Done", "experiments/run_rule_baselines.py"),
+        ("1.4 Rule-based stop-loss comparator (5 % and 10 % variants)", "Done", "experiments/runners/run_rule_baselines.py"),
         ("1.5 Robustness on 70-ticker test universe (Phase-1 budget)", "Done", "Four-agent comparison on 70 tickers × 3 seeds × 10k steps; aggregate stats + per-ticker table in Section 5.5 of dissertation"),
         ("1.6 Walk-forward (out-of-time) on CPU-feasible subset", "Done", "4 tickers × 4 folds × 3 seeds × 10k steps = 96 trainings; in Section 6.4 of dissertation"),
         ("1.7 Extended seed-stability check on representative sub-universe", "Done", "8 tickers × 10 seeds × 50k steps = 80 trainings; in Section 5.5.1 of dissertation"),
-        ("1.8 Phase-2 extended grid on full 70-ticker universe", "Scheduled", "GPU-only; orchestrator experiments/run_extended_grid.py + notebook notebooks/extended_grid_colab.ipynb"),
+        ("1.8 Phase-2 extended grid on full 70-ticker universe", "Scheduled", "GPU-only; orchestrator experiments/runners/run_extended_grid.py + notebook notebooks/extended_grid_colab.ipynb"),
     ])
 
     add_heading(doc, "Current results (mean across 3 seeds, test window 2022-2025)", 2)
@@ -614,13 +614,13 @@ def build() -> Path:
     add_heading(doc, "Reproducibility", 2)
     p = doc.add_paragraph()
     run = p.add_run(
-        "python experiments/run_baseline.py\n"
-        "python experiments/run_probabilistic_agent.py\n"
-        "python experiments/run_benchmarks.py\n"
-        "python experiments/run_rule_baselines.py\n"
-        "python reports/generate_dissertation_report.py\n"
-        "python reports/build_supervisor_pack.py\n"
-        "python reports/plot_dissertation_visuals.py"
+        "python experiments/runners/run_baseline.py\n"
+        "python experiments/runners/run_probabilistic_agent.py\n"
+        "python experiments/runners/run_benchmarks.py\n"
+        "python experiments/runners/run_rule_baselines.py\n"
+        "python reports/builders/generate_dissertation_report.py\n"
+        "python reports/builders/build_supervisor_pack.py\n"
+        "python reports/builders/plot_dissertation_visuals.py"
     )
     run.font.name = "Consolas"
     run.font.size = Pt(10)

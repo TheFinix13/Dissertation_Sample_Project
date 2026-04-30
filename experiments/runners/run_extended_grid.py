@@ -12,12 +12,12 @@ This is the script the README's Colab section calls. On CPU it is a slow run
 Examples:
 
     # The full 70-ticker × 10-seed × 4-fold × 50k-step × 16-bootstrap-path grid
-    python experiments/run_extended_grid.py \\
+    python experiments/runners/run_extended_grid.py \\
         --tickers fiyins_portfolio --seeds extended --folds all \\
         --timesteps 50000 --bootstrap-paths 16 --tag colab_70_extended
 
     # A faster basket sanity check (8 tickers, 10 seeds, 50k steps, single fold)
-    python experiments/run_extended_grid.py \\
+    python experiments/runners/run_extended_grid.py \\
         --tickers basket --seeds extended --timesteps 50000 \\
         --skip-walk-forward --tag basket_extended
 
@@ -37,7 +37,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-PROJECT_ROOT = ROOT.parent
+PROJECT_ROOT = ROOT.parent.parent
 
 
 def _run(label: str, argv: list[str]) -> tuple[int, float]:
@@ -107,21 +107,21 @@ def main() -> int:
 
     summary: list[tuple[str, int, float]] = []
     if not args.skip_benchmarks:
-        rc, secs = _run("Benchmarks", [py, "experiments/run_benchmarks.py", *common])
+        rc, secs = _run("Benchmarks", [py, "experiments/runners/run_benchmarks.py", *common])
         summary.append(("benchmarks", rc, secs))
     if not args.skip_rule:
-        rc, secs = _run("Rule-based stop-loss", [py, "experiments/run_rule_baselines.py", *common])
+        rc, secs = _run("Rule-based stop-loss", [py, "experiments/runners/run_rule_baselines.py", *common])
         summary.append(("rule_baseline", rc, secs))
     if not args.skip_baseline:
-        rc, secs = _run("Baseline PPO (single-fold extended)", [py, "experiments/run_baseline.py", *rl_common])
+        rc, secs = _run("Baseline PPO (single-fold extended)", [py, "experiments/runners/run_baseline.py", *rl_common])
         summary.append(("baseline_single_fold", rc, secs))
     if not args.skip_probabilistic:
         rc, secs = _run("Probabilistic PPO (single-fold extended)",
-                        [py, "experiments/run_probabilistic_agent.py", *prob_common])
+                        [py, "experiments/runners/run_probabilistic_agent.py", *prob_common])
         summary.append(("probabilistic_single_fold", rc, secs))
     if not args.skip_walk_forward:
         rc, secs = _run("Walk-forward grid (both agents, all folds)",
-                        [py, "experiments/run_walk_forward.py", *wf_common])
+                        [py, "experiments/runners/run_walk_forward.py", *wf_common])
         summary.append(("walk_forward", rc, secs))
     if not args.skip_aggregate:
         rc, secs = _run("Aggregate results", [py, "experiments/aggregate_results.py", "--tag", args.tag])

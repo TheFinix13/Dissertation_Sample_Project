@@ -225,11 +225,11 @@ calibration as the planned mitigation.
 
 ```bash
 source venv/bin/activate
-python experiments/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins
-python experiments/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins
-python experiments/run_baseline.py          --tickers fiyins_portfolio --tag fiyins
-python experiments/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins
-python reports/build_fiyins_case_study.py
+python experiments/runners/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins
+python experiments/runners/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins
+python experiments/runners/run_baseline.py          --tickers fiyins_portfolio --tag fiyins
+python experiments/runners/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins
+python reports/builders/build_fiyins_case_study.py
 ```
 
 End-to-end runtime on a single CPU: roughly 5–7 minutes. The probabilistic 

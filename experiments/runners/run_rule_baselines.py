@@ -14,18 +14,21 @@ Loops over all tickers resolved from --tickers; falls back to the legacy
 single ticker when the flag is omitted.
 
 Run examples:
-    venv/bin/python experiments/run_rule_baselines.py
-    venv/bin/python experiments/run_rule_baselines.py --tickers basket
-    venv/bin/python experiments/run_rule_baselines.py --tickers SPY,QQQ,IWM,XLK,XLF,XLE,XLV,XLU
+    venv/bin/python experiments/runners/run_rule_baselines.py
+    venv/bin/python experiments/runners/run_rule_baselines.py --tickers basket
+    venv/bin/python experiments/runners/run_rule_baselines.py --tickers SPY,QQQ,IWM,XLK,XLF,XLE,XLV,XLU
 """
 from __future__ import annotations
 
 import argparse
 import csv
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from common import (
     add_common_cli,

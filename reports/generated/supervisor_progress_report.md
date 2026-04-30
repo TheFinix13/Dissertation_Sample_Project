@@ -65,12 +65,12 @@ A representative eight-ticker sub-universe (SPY, QQQ, IWM, XLK, XLF, XLE, XLV, X
 ## What Is Ready by Monday
 
 - Reproducible scripts:
-  - `experiments/run_baseline.py` (`--tickers fiyins_portfolio --tag fiyins70` for the 70-ticker run)
-  - `experiments/run_probabilistic_agent.py`
-  - `experiments/run_benchmarks.py`
-  - `experiments/run_rule_baselines.py`
-  - `experiments/run_walk_forward.py`
-  - `experiments/run_extended_grid.py` (Phase-2 orchestrator for Colab)
+  - `experiments/runners/run_baseline.py` (`--tickers fiyins_portfolio --tag fiyins70` for the 70-ticker run)
+  - `experiments/runners/run_probabilistic_agent.py`
+  - `experiments/runners/run_benchmarks.py`
+  - `experiments/runners/run_rule_baselines.py`
+  - `experiments/runners/run_walk_forward.py`
+  - `experiments/runners/run_extended_grid.py` (Phase-2 orchestrator for Colab)
 - Documents:
   - `reports/generated/exports/Main_Dissertation_Draft.docx` (academic dissertation with Section 5.5 70-ticker robustness table + Appendix B full per-ticker table)
   - `reports/generated/exports/InterimReview.docx` (formal interim review form)

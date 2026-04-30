@@ -84,7 +84,7 @@ def _plot_intraday_realtime_proxy(ticker: str, out_path: Path) -> None:
 
 
 def main():
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     repo_root = root.parent
     results_dir = repo_root / "experiments" / "results"
     charts_dir = root / "generated" / "charts"

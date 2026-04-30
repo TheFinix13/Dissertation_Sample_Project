@@ -5,15 +5,18 @@ to the original single-ticker, three-seed behaviour when invoked with no flags
 so existing dissertation numbers stay reproducible.
 
 Run examples:
-    venv/bin/python experiments/run_baseline.py
-    venv/bin/python experiments/run_baseline.py --tickers basket
-    venv/bin/python experiments/run_baseline.py --tickers SPY,QQQ --seeds extended --timesteps 50000 --tag full
+    venv/bin/python experiments/runners/run_baseline.py
+    venv/bin/python experiments/runners/run_baseline.py --tickers basket
+    venv/bin/python experiments/runners/run_baseline.py --tickers SPY,QQQ --seeds extended --timesteps 50000 --tag full
 """
 
 import argparse
 import csv
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv

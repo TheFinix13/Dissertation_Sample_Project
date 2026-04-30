@@ -14,7 +14,7 @@ def _avg(rows: list[dict], key: str) -> float:
 
 
 def main():
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     results_dir = root.parent / "experiments" / "results"
     template_path = root / "templates" / "dissertation_results_template.md"
 

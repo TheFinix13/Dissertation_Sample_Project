@@ -5,17 +5,20 @@ when the flag is omitted) and writes a row per (ticker, agent) pair so the
 benchmark numbers slot directly into the multi-asset comparison tables.
 
 Run examples:
-    venv/bin/python experiments/run_benchmarks.py
-    venv/bin/python experiments/run_benchmarks.py --tickers basket
-    venv/bin/python experiments/run_benchmarks.py --tickers SPY,QQQ,IWM
+    venv/bin/python experiments/runners/run_benchmarks.py
+    venv/bin/python experiments/runners/run_benchmarks.py --tickers basket
+    venv/bin/python experiments/runners/run_benchmarks.py --tickers SPY,QQQ,IWM
 """
 
 import argparse
 import csv
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from common import (
     add_common_cli,

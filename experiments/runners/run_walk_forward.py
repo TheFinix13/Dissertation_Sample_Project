@@ -11,27 +11,30 @@ For each (ticker, fold, seed) cell, the harness writes:
 
 Run examples:
     # Quick smoke test (2 tickers, 3 seeds, 1 fold, 5k timesteps)
-    venv/bin/python experiments/run_walk_forward.py \\
+    venv/bin/python experiments/runners/run_walk_forward.py \\
         --tickers SPY,QQQ --seeds default --folds wf_2022_2023 --timesteps 5000 --tag smoke
 
     # Headline run (3 tickers, default 3 seeds, all folds, 50k timesteps)
-    venv/bin/python experiments/run_walk_forward.py \\
+    venv/bin/python experiments/runners/run_walk_forward.py \\
         --tickers SPY,QQQ,IWM --folds all --timesteps 50000 --tag headline
 
     # Full robustness sweep (8 tickers, 10 seeds, all folds, 50k timesteps).
     # CPU runtime: several hours; recommended on a Colab GPU runtime.
-    venv/bin/python experiments/run_walk_forward.py \\
+    venv/bin/python experiments/runners/run_walk_forward.py \\
         --tickers basket --seeds extended --folds all --timesteps 50000 --tag full
 """
 
 import argparse
 import csv
 import json
+import sys
 from pathlib import Path
 
 import pandas as pd
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from common import (
     EnvConfig,

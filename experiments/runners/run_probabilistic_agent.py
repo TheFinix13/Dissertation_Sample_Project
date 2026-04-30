@@ -7,14 +7,15 @@ the real series before training, expanding the effective training set without
 leaving the empirical return distribution.
 
 Run examples:
-    venv/bin/python experiments/run_probabilistic_agent.py
-    venv/bin/python experiments/run_probabilistic_agent.py --tickers basket
-    venv/bin/python experiments/run_probabilistic_agent.py --tickers SPY --seeds extended --timesteps 50000 --bootstrap-paths 16 --tag full
+    venv/bin/python experiments/runners/run_probabilistic_agent.py
+    venv/bin/python experiments/runners/run_probabilistic_agent.py --tickers basket
+    venv/bin/python experiments/runners/run_probabilistic_agent.py --tickers SPY --seeds extended --timesteps 50000 --bootstrap-paths 16 --tag full
 """
 
 import argparse
 import csv
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -22,6 +23,8 @@ import torch
 import torch.nn as nn
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from common import (
     EnvConfig,

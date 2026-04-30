@@ -17,8 +17,8 @@ It is intentionally kept separate from ``Main_Dissertation_Draft.docx`` so that:
 
 Run order (the case-study tables / charts must already exist on disk):
 
-    venv/bin/python reports/build_fiyins_case_study.py            # tables + PNGs
-    venv/bin/python reports/build_fiyins_dissertation_docx.py     # this script
+    venv/bin/python reports/builders/build_fiyins_case_study.py            # tables + PNGs
+    venv/bin/python reports/builders/build_fiyins_dissertation_docx.py     # this script
 """
 
 from __future__ import annotations
@@ -36,7 +36,7 @@ from docx.shared import Cm, Inches, Pt, RGBColor
 
 from build_fiyins_case_study import _load_protocol_counts, build_tables  # type: ignore
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 EXPORTS = ROOT / "reports" / "generated" / "exports"
 CHARTS = ROOT / "reports" / "generated" / "charts"
 EXPORTS.mkdir(parents=True, exist_ok=True)
@@ -734,7 +734,7 @@ def build() -> Path:
     add_bullets(doc, [
         "10.1 Full extended grid on Colab GPU (mid-May 2026). 70 tickers × 10 seeds × 50,000 PPO "
         "timesteps × four walk-forward folds × 32 bootstrap-augmented training paths. The orchestrator "
-        "script (experiments/run_extended_grid.py) and the Colab notebook (notebooks/extended_grid_colab.ipynb) "
+        "script (experiments/runners/run_extended_grid.py) and the Colab notebook (notebooks/extended_grid_colab.ipynb) "
         "are both already written; the grid replaces the 3-seed × 10k-step Phase-1 numbers in this "
         "document with median + inter-quartile range bands across the full grid.",
         "10.2 Sector-aware uncertainty calibration (early June 2026). The losses in Section 7.2 above are "
@@ -769,12 +769,12 @@ def build() -> Path:
     ))
     code = (
         "source venv/bin/activate\n"
-        "python experiments/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins70\n"
-        "python experiments/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins70\n"
-        "python experiments/run_baseline.py          --tickers fiyins_portfolio --tag fiyins70\n"
-        "python experiments/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins70\n"
-        "python reports/build_fiyins_case_study.py        # tables + PNG charts\n"
-        "python reports/build_fiyins_dissertation_docx.py # this document"
+        "python experiments/runners/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins70\n"
+        "python experiments/runners/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins70\n"
+        "python experiments/runners/run_baseline.py          --tickers fiyins_portfolio --tag fiyins70\n"
+        "python experiments/runners/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins70\n"
+        "python reports/builders/build_fiyins_case_study.py        # tables + PNG charts\n"
+        "python reports/builders/build_fiyins_dissertation_docx.py # this document"
     )
     p = doc.add_paragraph()
     code_run = p.add_run(code)

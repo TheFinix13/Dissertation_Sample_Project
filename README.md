@@ -36,9 +36,9 @@ The interim review draft (Surrey form) lives at
 To regenerate every document:
 
 ```bash
-venv/bin/python reports/build_main_dissertation_docx.py       # academic dissertation
-venv/bin/python reports/build_fiyins_dissertation_docx.py     # personal-portfolio companion
-venv/bin/python reports/build_interim_review_docx.py          # interim review form
+venv/bin/python reports/builders/build_main_dissertation_docx.py       # academic dissertation
+venv/bin/python reports/builders/build_fiyins_dissertation_docx.py     # personal-portfolio companion
+venv/bin/python reports/builders/build_interim_review_docx.py          # interim review form
 venv/bin/python -m nbconvert --to webpdf --allow-chromium-download \
   --output reports/generated/exports/Dissertation_Walkthrough.pdf \
   Dissertation_Walkthrough.ipynb
@@ -71,6 +71,17 @@ portfolio-risk-drl/
 │   ├── ppo_stock_trading_standalone.py   # PPO agent (SB3) - works
 │   ├── deepar_style_example.py           # Probabilistic LSTM - works
 │   └── finrl_ppo_example.py              # FinRL+PPO (needs extra deps)
+├── experiments/
+│   ├── runners/             # CLI entry points (run_baseline.py, run_probabilistic_agent.py, ...)
+│   ├── common.py            # Shared library: env, metrics, data, training helpers
+│   ├── aggregate_results.py # Pools per-cell JSON results into median + IQR summaries
+│   ├── configs/             # dissertation_protocol.json
+│   └── results/             # Per-cell JSON + CSV outputs from runners
+├── reports/
+│   ├── builders/            # All build_*.py / generate_*.py / plot_*.py scripts
+│   ├── generated/           # Outputs (markdown, charts/, exports/)
+│   └── templates/           # Markdown templates and viva notes
+├── notebooks/               # Dissertation_Walkthrough + extended_grid_colab
 ├── trained_models/          # Saved PPO models
 ├── live/                    # Post-submission deployment scaffold (Phase A/B/C, see live/ROADMAP.md)
 ├── requirements.txt
@@ -102,25 +113,25 @@ portfolio-risk-drl/
 source venv/bin/activate
 
 # 1) Baseline PPO with deterministic seeds
-python experiments/run_baseline.py
+python experiments/runners/run_baseline.py
 
 # 2) Probabilistic DeepAR-style uncertainty + PPO
-python experiments/run_probabilistic_agent.py
+python experiments/runners/run_probabilistic_agent.py
 
 # 3) Buy-and-hold and all-cash benchmarks
-python experiments/run_benchmarks.py
+python experiments/runners/run_benchmarks.py
 
 # 4) Rule-based trailing stop-loss comparator (5 % and 10 % variants)
-python experiments/run_rule_baselines.py
+python experiments/runners/run_rule_baselines.py
 
 # 5) Markdown summary, supervisor pack, plots
-python reports/generate_dissertation_report.py
-python reports/build_supervisor_pack.py
-python reports/plot_dissertation_visuals.py
+python reports/builders/generate_dissertation_report.py
+python reports/builders/build_supervisor_pack.py
+python reports/builders/plot_dissertation_visuals.py
 
 # 6) Word documents (dissertation + interim review)
-python reports/build_main_dissertation_docx.py
-python reports/build_interim_review_docx.py
+python reports/builders/build_main_dissertation_docx.py
+python reports/builders/build_interim_review_docx.py
 ```
 
 - Protocol config: `experiments/configs/dissertation_protocol.json`
@@ -147,31 +158,31 @@ for the heaviest experiments:
 
 | File                                                             | Scope                                                                                                          | Built by |
 |------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|
-| `reports/generated/exports/Main_Dissertation_Draft.docx`         | The academic EEEM004 dissertation. 70-ticker test universe headline (Section 5.5 + Appendix B), eight-ticker sub-universe extended seed-stability check (Section 5.5.1), four-ticker walk-forward grid (Section 6.4). | `python reports/build_main_dissertation_docx.py` |
-| `reports/generated/exports/Fiyins_Dissertation.docx`             | Plain-English companion to the 70-ticker evidence. Same numbers as Section 5.5 / Appendix B of the academic dissertation, but written for a non-quantitative reader with finance context, full per-ticker commentary and visualisations. | `python reports/build_fiyins_dissertation_docx.py` |
+| `reports/generated/exports/Main_Dissertation_Draft.docx`         | The academic EEEM004 dissertation. 70-ticker test universe headline (Section 5.5 + Appendix B), eight-ticker sub-universe extended seed-stability check (Section 5.5.1), four-ticker walk-forward grid (Section 6.4). | `python reports/builders/build_main_dissertation_docx.py` |
+| `reports/generated/exports/Fiyins_Dissertation.docx`             | Plain-English companion to the 70-ticker evidence. Same numbers as Section 5.5 / Appendix B of the academic dissertation, but written for a non-quantitative reader with finance context, full per-ticker commentary and visualisations. | `python reports/builders/build_fiyins_dissertation_docx.py` |
 | `notebooks/extended_grid_colab.ipynb`                            | The heaviest experiments — full 70-ticker × 10-seed × 50k-step extended grid + 4-fold walk-forward + bootstrap. *GPU-only.* | Open in Colab → *Run all*. |
 
 ### Phase-1 (CPU) pipeline — runs on a laptop in 25–35 minutes
 
 ```bash
 # Phase-1 budget run on the 70-ticker test universe (3 seeds × 10k steps; ≈ 25–35 min CPU)
-python experiments/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins70
-python experiments/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins70
-python experiments/run_baseline.py          --tickers fiyins_portfolio --tag fiyins70
-python experiments/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins70
+python experiments/runners/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins70
+python experiments/runners/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins70
+python experiments/runners/run_baseline.py          --tickers fiyins_portfolio --tag fiyins70
+python experiments/runners/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins70
 
 # Walk-forward subset (96 trainings, ≈ 6–8 hours CPU)
-python experiments/run_walk_forward.py --tickers SPY,QQQ,XLK,XLF
+python experiments/runners/run_walk_forward.py --tickers SPY,QQQ,XLK,XLF
 
 # Extended seed-stability check on representative sub-universe (80 trainings, ≈ 4–5 hours CPU)
-python experiments/run_probabilistic_agent.py --tickers basket --seeds extended --timesteps 50000 --tag extbasket
+python experiments/runners/run_probabilistic_agent.py --tickers basket --seeds extended --timesteps 50000 --tag extbasket
 
 # Build everything — academic dissertation, companion document, interim review,
 # case-study charts, plain-English summary.
-python reports/build_fiyins_case_study.py            # tables + PNG charts
-python reports/build_fiyins_dissertation_docx.py     # Fiyins_Dissertation.docx
-python reports/build_main_dissertation_docx.py       # Main_Dissertation_Draft.docx
-python reports/build_interim_review_docx.py          # InterimReview.docx
+python reports/builders/build_fiyins_case_study.py            # tables + PNG charts
+python reports/builders/build_fiyins_dissertation_docx.py     # Fiyins_Dissertation.docx
+python reports/builders/build_main_dissertation_docx.py       # Main_Dissertation_Draft.docx
+python reports/builders/build_interim_review_docx.py          # InterimReview.docx
 ```
 
 Outputs land at:
@@ -211,7 +222,7 @@ For local Colab launch:
 Or to drive the same heavy run from the command line (e.g. on a leased GPU node):
 
 ```bash
-python experiments/run_extended_grid.py \
+python experiments/runners/run_extended_grid.py \
     --tickers fiyins_portfolio --seeds extended --folds all \
     --timesteps 50000 --bootstrap-paths 16 --tag colab_70_extended
 ```

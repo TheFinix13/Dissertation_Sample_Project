@@ -7,8 +7,8 @@ Requires the four fiyins-tagged result files plus the two charts produced by
 build_fiyins_case_study.py.
 
 Run:
-    venv/bin/python reports/build_fiyins_case_study.py            # builds tables + PNGs
-    venv/bin/python reports/build_fiyins_case_study_docx.py       # builds .docx
+    venv/bin/python reports/builders/build_fiyins_case_study.py            # builds tables + PNGs
+    venv/bin/python reports/builders/build_fiyins_case_study_docx.py       # builds .docx
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ from docx.shared import Cm, Inches, Pt, RGBColor
 
 from build_fiyins_case_study import build_tables  # type: ignore
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 EXPORTS = ROOT / "reports" / "generated" / "exports"
 CHARTS = ROOT / "reports" / "generated" / "charts"
 EXPORTS.mkdir(parents=True, exist_ok=True)
@@ -394,11 +394,11 @@ def build() -> Path:
     table = doc.add_table(rows=5, cols=1)
     table.style = "Table Grid"
     cmds = [
-        "python experiments/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins",
-        "python experiments/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins",
-        "python experiments/run_baseline.py          --tickers fiyins_portfolio --tag fiyins",
-        "python experiments/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins",
-        "python reports/build_fiyins_case_study.py",
+        "python experiments/runners/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins",
+        "python experiments/runners/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins",
+        "python experiments/runners/run_baseline.py          --tickers fiyins_portfolio --tag fiyins",
+        "python experiments/runners/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins",
+        "python reports/builders/build_fiyins_case_study.py",
     ]
     for i, c in enumerate(cmds):
         cell = table.rows[i].cells[0]

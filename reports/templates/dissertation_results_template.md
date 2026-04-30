@@ -5,8 +5,8 @@ Evaluate whether probabilistic uncertainty integration improves downside-risk be
 
 ## Protocol
 - Config: `experiments/configs/dissertation_protocol.json`
-- Baseline runner: `experiments/run_baseline.py`
-- Probabilistic runner: `experiments/run_probabilistic_agent.py`
+- Baseline runner: `experiments/runners/run_baseline.py`
+- Probabilistic runner: `experiments/runners/run_probabilistic_agent.py`
 
 ## Results Snapshot
 | Agent | Final Value | Sharpe | Max Drawdown | VaR Violation Rate | Preservation Rate |

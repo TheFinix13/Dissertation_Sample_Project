@@ -113,7 +113,7 @@ bibliography in the dissertation will be longer.
    *International Journal of Forecasting, 36(3), 1181–1191.*
    The blueprint for my forecaster: an RNN that emits the parameters of a
    predictive distribution and is trained by negative log-likelihood. My
-   implementation in `experiments/run_probabilistic_agent.py` is a stripped-
+   implementation in `experiments/runners/run_probabilistic_agent.py` is a stripped-
    down DeepAR with a Gaussian head emitting (μ, log σ²).
 
 4. **Hochreiter & Schmidhuber (1997) — "Long Short-Term Memory."** *Neural
@@ -178,7 +178,7 @@ config file and a small set of scripts.
 
 ### What has been built
 
-- A **probabilistic forecaster** (`experiments/run_probabilistic_agent.py`):
+- A **probabilistic forecaster** (`experiments/runners/run_probabilistic_agent.py`):
   an LSTM trained with Gaussian NLL that emits the mean and log variance of
   the next-step log return. The predictive standard deviation is min-max
   normalised across the test window into a unit-interval uncertainty score.
@@ -193,10 +193,10 @@ config file and a small set of scripts.
   - Reward is the per-step log of the portfolio-value ratio, multiplied by
     100 for numerical scale. This rewards compounding and penalises
     drawdowns automatically, without an extra term.
-- A **baseline PPO runner** (`experiments/run_baseline.py`) that uses the
+- A **baseline PPO runner** (`experiments/runners/run_baseline.py`) that uses the
   same environment without the uncertainty coordinate or the trade-size
   shrinkage, so the comparison is genuinely controlled.
-- A **benchmarks runner** (`experiments/run_benchmarks.py`) that evaluates
+- A **benchmarks runner** (`experiments/runners/run_benchmarks.py`) that evaluates
   buy-and-hold and all-cash on the same test window. These act as sanity
   checks on the metric definitions as much as competitors to beat.
 - A single **evaluation protocol**
@@ -204,9 +204,9 @@ config file and a small set of scripts.
   (2009–2018 train / 2019–2021 validation / 2022–2025 test), the seeds
   (`[7, 19, 42]`) and the metric set, and is read by every script. This is
   the bit that actually makes the comparisons fair.
-- A **reporting layer**: `reports/generate_dissertation_report.py` produces
-  the markdown summary, `reports/build_supervisor_pack.py` produces the
-  one-page chart, and `reports/plot_dissertation_visuals.py` produces the
+- A **reporting layer**: `reports/builders/generate_dissertation_report.py` produces
+  the markdown summary, `reports/builders/build_supervisor_pack.py` produces the
+  one-page chart, and `reports/builders/plot_dissertation_visuals.py` produces the
   detailed figures. There is also a `Dissertation_Walkthrough.ipynb` that
   re-runs the whole pipeline and renders the embedded outputs for review.
 
@@ -220,7 +220,7 @@ config file and a small set of scripts.
 | 1.1 Shared protocol + metrics | Done | `experiments/configs/dissertation_protocol.json`, `experiments/common.py` |
 | 1.2 Reproducible baseline / probabilistic / benchmark runners | Done | three runners, seeded |
 | 1.3 Dissertation report + supervisor pack | Done | `reports/generated/` |
-| 1.4 Rule-based stop-loss comparator (5 % and 10 % variants) | Done | `experiments/run_rule_baselines.py` |
+| 1.4 Rule-based stop-loss comparator (5 % and 10 % variants) | Done | `experiments/runners/run_rule_baselines.py` |
 | 1.5 Robustness (multi-ticker, walk-forward, ablations, shock windows) | In progress | Scheduled May–August (see future plan) |
 
 ### Current results (mean across 3 seeds, test window 2022–2025)
@@ -239,7 +239,7 @@ Equity curves and the uncertainty signal are in
 `equity_curve_comparison.png` and `uncertainty_signal.png` respectively.
 The two new rule-based comparators (5 % and 10 % trailing stop-losses with a
 20/50-day moving-average crossover for re-entry) live in
-`experiments/run_rule_baselines.py`.
+`experiments/runners/run_rule_baselines.py`.
 
 ### 70-ticker test universe — Phase-1 robustness (Section 5.5)
 
@@ -280,7 +280,7 @@ A few things are worth flagging before this table is read in isolation:
   it started with a slightly negative Sharpe.
 - The third comparator — a rule-based stop-loss policy of the kind a
   discretionary investor would actually use — has now been implemented
-  (`experiments/run_rule_baselines.py`). Two variants (5 % and 10 %
+  (`experiments/runners/run_rule_baselines.py`). Two variants (5 % and 10 %
   trailing stop with a 20/50-day moving-average re-entry rule) are run
   on the same protocol. They sit between cash and buy-and-hold on return
   and they end with adequate terminal preservation, but they incur path
@@ -305,12 +305,12 @@ A few things are worth flagging before this table is read in isolation:
 ### Reproducibility
 
 ```bash
-python experiments/run_baseline.py
-python experiments/run_probabilistic_agent.py
-python experiments/run_benchmarks.py
-python reports/generate_dissertation_report.py
-python reports/build_supervisor_pack.py
-python reports/plot_dissertation_visuals.py
+python experiments/runners/run_baseline.py
+python experiments/runners/run_probabilistic_agent.py
+python experiments/runners/run_benchmarks.py
+python reports/builders/generate_dissertation_report.py
+python reports/builders/build_supervisor_pack.py
+python reports/builders/plot_dissertation_visuals.py
 ```
 
 Artifacts land in `experiments/results/` and `reports/generated/`. The full

@@ -2,10 +2,10 @@
 
 Reads the latest fiyins-tagged result files produced by:
 
-    venv/bin/python experiments/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins
-    venv/bin/python experiments/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins
-    venv/bin/python experiments/run_baseline.py          --tickers fiyins_portfolio --tag fiyins
-    venv/bin/python experiments/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins
+    venv/bin/python experiments/runners/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins
+    venv/bin/python experiments/runners/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins
+    venv/bin/python experiments/runners/run_baseline.py          --tickers fiyins_portfolio --tag fiyins
+    venv/bin/python experiments/runners/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins
 
 and writes:
 
@@ -25,7 +25,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 RESULTS = ROOT / "experiments" / "results"
 REPORTS = ROOT / "reports" / "generated"
 CHARTS = REPORTS / "charts"
@@ -433,11 +433,11 @@ def write_markdown(data: dict, chart1: Path, chart2: Path) -> Path:
     md.append("")
     md.append("```bash")
     md.append("source venv/bin/activate")
-    md.append("python experiments/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins")
-    md.append("python experiments/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins")
-    md.append("python experiments/run_baseline.py          --tickers fiyins_portfolio --tag fiyins")
-    md.append("python experiments/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins")
-    md.append("python reports/build_fiyins_case_study.py")
+    md.append("python experiments/runners/run_benchmarks.py        --tickers fiyins_portfolio --tag fiyins")
+    md.append("python experiments/runners/run_rule_baselines.py    --tickers fiyins_portfolio --tag fiyins")
+    md.append("python experiments/runners/run_baseline.py          --tickers fiyins_portfolio --tag fiyins")
+    md.append("python experiments/runners/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins")
+    md.append("python reports/builders/build_fiyins_case_study.py")
     md.append("```")
     md.append("")
     md.append("End-to-end runtime on a single CPU: roughly 5–7 minutes. The probabilistic ")

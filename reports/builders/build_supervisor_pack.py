@@ -44,7 +44,7 @@ def build_chart(baseline: list[dict], probabilistic: list[dict], buy_hold_value:
 
 
 def main():
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     results_dir = root.parent / "experiments" / "results"
     out_dir = root / "generated"
     charts_dir = out_dir / "charts"
@@ -104,10 +104,10 @@ def main():
 
 ## What Is Ready by Monday
 - Reproducible scripts:
-  - `experiments/run_baseline.py`
-  - `experiments/run_probabilistic_agent.py`
-  - `experiments/run_benchmarks.py`
-  - `reports/generate_dissertation_report.py`
+  - `experiments/runners/run_baseline.py`
+  - `experiments/runners/run_probabilistic_agent.py`
+  - `experiments/runners/run_benchmarks.py`
+  - `reports/builders/generate_dissertation_report.py`
 - Supervisor chart: `reports/generated/charts/final_value_comparison.png`
 - Dissertation summary: `reports/generated/dissertation_results.md`
 

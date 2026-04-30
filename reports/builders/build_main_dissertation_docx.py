@@ -4,7 +4,7 @@ Outputs:
     reports/generated/exports/Main_Dissertation_Draft.docx
 
 Run:
-    venv/bin/python reports/build_main_dissertation_docx.py
+    venv/bin/python reports/builders/build_main_dissertation_docx.py
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 from docx.shared import Cm, Inches, Pt, RGBColor
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 RESULTS = ROOT / "experiments" / "results"
 EXPORTS = ROOT / "reports" / "generated" / "exports"
 EQ_DIR = EXPORTS / "equations"
@@ -1513,9 +1513,9 @@ def build() -> Path:
     add_bullets(doc, [
         "experiments/configs/dissertation_protocol.json: the single source of truth for the protocol (splits, seeds, metric list and agent hyper-parameters).",
         "experiments/common.py: environment, metric computation, data fetch and seed helpers.",
-        "experiments/run_baseline.py, run_probabilistic_agent.py, run_benchmarks.py: the three runners that produce the seeded artifacts.",
+        "experiments/runners/run_baseline.py, run_probabilistic_agent.py, run_benchmarks.py: the three runners that produce the seeded artifacts.",
         "experiments/results/: the generated CSV and JSON metric files and the equity-curve series.",
-        "reports/build_supervisor_pack.py, generate_dissertation_report.py, plot_dissertation_visuals.py and build_main_dissertation_docx.py: the reporting layer.",
+        "reports/builders/build_supervisor_pack.py, generate_dissertation_report.py, plot_dissertation_visuals.py and build_main_dissertation_docx.py: the reporting layer.",
         "Dissertation_Walkthrough.ipynb: a single-file end-to-end walkthrough that I prepared for supervisor review.",
     ])
 
@@ -2108,7 +2108,7 @@ def build() -> Path:
         "between baseline and probabilistic PPO (both arms see the same data), "
         "but it does not by itself demonstrate that the trained policy "
         "generalises to a window the agent has not seen. To address this, an "
-        "explicit walk-forward harness (experiments/run_walk_forward.py) was "
+        "explicit walk-forward harness (experiments/runners/run_walk_forward.py) was "
         "added in May 2026. Each fold trains on a strictly earlier window and "
         "evaluates on a strictly later window; the four folds defined in the "
         "protocol are wf_2018_2019, wf_2020_2021, wf_2022_2023 and "
@@ -2218,7 +2218,7 @@ def build() -> Path:
         "per cell, for a total of approximately 16 800 individual training "
         "runs in the heaviest configuration — is scheduled for the Colab T4 "
         "GPU runtime in Phase 2 (the orchestrator is "
-        "experiments/run_extended_grid.py and the notebook is "
+        "experiments/runners/run_extended_grid.py and the notebook is "
         "notebooks/extended_grid_colab.ipynb). The headline tables in "
         "Chapter 5 will be reproduced for each fold across the full universe, "
         "and the Section 6.4 numbers above will be superseded by the median + "
@@ -2291,7 +2291,7 @@ def build() -> Path:
     )
     add_para(doc, "Group 1 — Scheduled before submission:", bold=True)
     add_bullets(doc, [
-        "Phase-2 extended grid on the full 70-ticker universe (June–July 2026). Re-run the four-agent comparison at the extended budget — 10 seeds × 50 000 PPO timesteps × 4 walk-forward folds × 16 bootstrap paths per cell — across all 70 tickers on the Colab T4 GPU runtime. The orchestrator is experiments/run_extended_grid.py and the notebook is notebooks/extended_grid_colab.ipynb. The headline aggregate Table 5.2 and the Table 5.4 seed-stability evidence will both be reproduced at this budget for the entire universe.",
+        "Phase-2 extended grid on the full 70-ticker universe (June–July 2026). Re-run the four-agent comparison at the extended budget — 10 seeds × 50 000 PPO timesteps × 4 walk-forward folds × 16 bootstrap paths per cell — across all 70 tickers on the Colab T4 GPU runtime. The orchestrator is experiments/runners/run_extended_grid.py and the notebook is notebooks/extended_grid_colab.ipynb. The headline aggregate Table 5.2 and the Table 5.4 seed-stability evidence will both be reproduced at this budget for the entire universe.",
         "Sector-aware uncertainty calibration (July 2026). Replace the single global uncertainty-guard threshold (0.80) with per-sector or per-regime thresholds calibrated on the validation window. The Section 6.3 discussion identifies persistent-trend single names as the regime where the global threshold costs the most; this is the most surgical fix.",
         "Ablation study (July 2026). Compare PPO, PPO with the uncertainty signal as a state feature only, and PPO with the uncertainty guard only, against the full design, on the same protocol. The aim is to attribute how much of the headline result comes from each of the three pieces.",
         "Sensitivity sweep (July 2026). Sweep the uncertainty quantile threshold over {0.7, 0.8, 0.9}, the minimum scale s_min over {0.05, 0.10, 0.20}, and the maximum trade fraction over {0.05, 0.10, 0.20}.",
@@ -2399,19 +2399,19 @@ def build() -> Path:
         "python3 -m venv venv && source venv/bin/activate\n"
         "pip install -r requirements.txt\n"
         "# Phase-1 SPY headline (Chapter 5 Section 5.3, Section 5.4):\n"
-        "python experiments/run_baseline.py\n"
-        "python experiments/run_probabilistic_agent.py\n"
-        "python experiments/run_benchmarks.py\n"
-        "python experiments/run_rule_baselines.py\n"
+        "python experiments/runners/run_baseline.py\n"
+        "python experiments/runners/run_probabilistic_agent.py\n"
+        "python experiments/runners/run_benchmarks.py\n"
+        "python experiments/runners/run_rule_baselines.py\n"
         "# Phase-1 70-ticker test universe (Chapter 5 Section 5.5, Appendix B):\n"
-        "python experiments/run_benchmarks.py     --tickers fiyins_portfolio --tag fiyins70\n"
-        "python experiments/run_rule_baselines.py --tickers fiyins_portfolio --tag fiyins70\n"
-        "python experiments/run_baseline.py       --tickers fiyins_portfolio --tag fiyins70\n"
-        "python experiments/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins70\n"
+        "python experiments/runners/run_benchmarks.py     --tickers fiyins_portfolio --tag fiyins70\n"
+        "python experiments/runners/run_rule_baselines.py --tickers fiyins_portfolio --tag fiyins70\n"
+        "python experiments/runners/run_baseline.py       --tickers fiyins_portfolio --tag fiyins70\n"
+        "python experiments/runners/run_probabilistic_agent.py --tickers fiyins_portfolio --tag fiyins70\n"
         "# Walk-forward subset (Section 6.4):\n"
-        "python experiments/run_walk_forward.py --tickers SPY,QQQ,XLK,XLF\n"
+        "python experiments/runners/run_walk_forward.py --tickers SPY,QQQ,XLK,XLF\n"
         "# Build the dissertation document:\n"
-        "python reports/build_main_dissertation_docx.py"
+        "python reports/builders/build_main_dissertation_docx.py"
     )
     p = doc.add_paragraph()
     run = p.add_run(code)
