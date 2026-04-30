@@ -2239,7 +2239,7 @@ def build() -> Path:
         "One uncertainty estimator. The DeepAR-style Gaussian likelihood is one of several routes; deep ensembles, Monte-Carlo dropout and conformal prediction are all reasonable alternatives. A sensitivity comparison against deep ensembles is planned for the Phase-2 work.",
         "Global uncertainty-quantile threshold. The threshold is currently a single value (0.80) calibrated on the SPY validation window. The Section 6.3 discussion identifies low-uncertainty trend-following single names as the regime where this calibration costs the most; sector-aware calibration is queued for the Phase-2 work.",
         "Daily granularity. Intraday dynamics are out of scope; the trade-size scaling and the risk-on guard would both need re-calibration at minute or tick granularity. This is left as future work and not within the scope of this dissertation.",
-        "No live execution in the headline experiments. A paper-trading shadow run via the Alpaca brokerage API is scheduled for August 2026 and will be reported as an out-of-sample case study in the final dissertation, with the live PnL placed alongside the backtest.",
+        "No live execution in the headline experiments. The dissertation rests on the backtest and walk-forward evidence. A paper-trading shadow run via the Alpaca brokerage API is set up as a stretch goal for August 2026 and is described in the real-world deployment roadmap in Section 7.2; if it lands inside the submission window the live PnL will be reported as an out-of-sample case study, and if it does not it is recorded as post-submission work in the live/ directory of the repository so that the dissertation does not depend on it.",
     ])
 
     add_heading(doc, "6.6 Threats to validity", 2)
@@ -2280,11 +2280,16 @@ def build() -> Path:
     add_heading(doc, "7.2 Future work", 2)
     add_para(
         doc,
-        "The future-work items below are split between work scheduled to land in the final "
-        "dissertation before the September 2026 submission, and work that sits beyond the "
-        "scope of this dissertation and is offered as a forward-looking research agenda.",
+        "The future-work items below are split into three groups. The first group is work "
+        "scheduled to land in the final dissertation before the September 2026 submission "
+        "and is on the submission-critical path. The second group is a real-world "
+        "deployment roadmap that sits outside the submission-critical path and is offered "
+        "as the bridge from the dissertation evidence to a system that runs against a real "
+        "portfolio; a skeleton of this roadmap is checked into the live/ directory of the "
+        "repository. The third group is a forward-looking research agenda that goes beyond "
+        "the scope of this dissertation.",
     )
-    add_para(doc, "Scheduled before submission:", bold=True)
+    add_para(doc, "Group 1 — Scheduled before submission:", bold=True)
     add_bullets(doc, [
         "Phase-2 extended grid on the full 70-ticker universe (June–July 2026). Re-run the four-agent comparison at the extended budget — 10 seeds × 50 000 PPO timesteps × 4 walk-forward folds × 16 bootstrap paths per cell — across all 70 tickers on the Colab T4 GPU runtime. The orchestrator is experiments/run_extended_grid.py and the notebook is notebooks/extended_grid_colab.ipynb. The headline aggregate Table 5.2 and the Table 5.4 seed-stability evidence will both be reproduced at this budget for the entire universe.",
         "Sector-aware uncertainty calibration (July 2026). Replace the single global uncertainty-guard threshold (0.80) with per-sector or per-regime thresholds calibrated on the validation window. The Section 6.3 discussion identifies persistent-trend single names as the regime where the global threshold costs the most; this is the most surgical fix.",
@@ -2292,9 +2297,49 @@ def build() -> Path:
         "Sensitivity sweep (July 2026). Sweep the uncertainty quantile threshold over {0.7, 0.8, 0.9}, the minimum scale s_min over {0.05, 0.10, 0.20}, and the maximum trade fraction over {0.05, 0.10, 0.20}.",
         "Bootstrap-augmented training (August 2026). Generate synthetic training paths by block-bootstrap resampling of historical return sequences (Politis and Romano, 1994), to expand the effective training set by an order of magnitude without leaving the empirical return distribution.",
         "Shock-window case studies (August 2026). Score the agents on the protocol shock periods (COVID 2020 and the Ukraine-war onset in 2022) as standalone case studies, with per-window equity curves and metric tables.",
-        "Paper-trading shadow run (August 2026). Wire the trained models to a paper-trading account (Alpaca) and run them in shadow mode for at least two weeks during the full-time phase. Report the live PnL alongside the backtest as an out-of-sample case study.",
     ])
-    add_para(doc, "Beyond the scope of this dissertation:", bold=True)
+
+    add_para(doc, "Group 2 — Real-world deployment roadmap (post-submission):", bold=True)
+    add_para(
+        doc,
+        "The dissertation answers a scientific question about a design choice. A separate "
+        "engineering question, asked outside the dissertation, is whether the resulting "
+        "agents can be made useful against a real, live portfolio. The roadmap below "
+        "phases that work from low risk to higher risk so that each phase produces "
+        "evidence the next phase needs. The skeleton in the live/ directory of the "
+        "repository (live/README.md, live/ROADMAP.md, and the paper_trading, "
+        "decision_support and execution sub-directories) holds the same checklist in "
+        "machine-readable form and is intended to be filled in incrementally after "
+        "submission. Each phase is gated by an explicit go / no-go criterion taken from "
+        "the dissertation's preservation-against-high-watermark and Sharpe metrics.",
+    )
+    add_para(doc, "Phase A — Shadow paper-trading via Alpaca:", bold=True)
+    add_bullets(doc, [
+        "[ ] Provision an Alpaca paper-trading account and store credentials in environment variables (no secrets in the repo).",
+        "[ ] Wire the saved 70-ticker probabilistic policy and its DeepAR-style forecaster behind a daily polling loop in live/paper_trading/alpaca_paper_loop.py.",
+        "[ ] Log every observation, predicted (mean, std) pair, raw action, scaled action and resulting fill, on a per-day per-ticker basis, to a versioned JSONL trail under live/paper_trading/runs/.",
+        "[ ] Run the loop in shadow mode for at least two weeks of trading days. The agent acts only on the paper account; no real capital is touched.",
+        "[ ] Reconcile the live equity curve against a simultaneous backtest replay on the same observation stream, to confirm that the live wiring reproduces the backtest behaviour up to fill-time and slippage.",
+        "[ ] Go / no-go criterion for Phase B: the live capital-preservation ratio sits above 0.95 across the shadow window and the live Sharpe is non-inferior to the matched-window backtest within Monte-Carlo noise.",
+    ])
+    add_para(doc, "Phase B — Decision-support advisor against the real portfolio:", bold=True)
+    add_bullets(doc, [
+        "[ ] Build live/decision_support/nightly_advisor.py: pull current positions and prices from Alpaca (live account, read-only), run the agent on the day's observation, and emit a recommendation (target weight, scaled action, confidence) by email or Slack.",
+        "[ ] Operate as decision-support only — the human is the executor, the agent is the advisor — for at least one full quarter of trading days.",
+        "[ ] Maintain a side-by-side ledger that records, on every recommendation, what the agent suggested, what the human did, and the resulting P&L attribution between the two.",
+        "[ ] Include an explicit kill-switch and a hard exposure cap (no single-name position above a configurable percent of equity, no aggregate gross above a configurable percent of equity).",
+        "[ ] Go / no-go criterion for Phase C: across the quarter the recommendations would have produced a Sharpe non-inferior to the actual portfolio, with maximum drawdown below the running high-watermark threshold the dissertation reports.",
+    ])
+    add_para(doc, "Phase C — Scheduled execution with continuous risk gates:", bold=True)
+    add_bullets(doc, [
+        "[ ] Build live/execution/scheduled_executor.py: cron-driven (or systemd-timer-driven) entry that runs the advisor and, where it satisfies pre-trade risk gates, places the corresponding orders on the live account through the Alpaca trading API.",
+        "[ ] Pre-trade risk gates are non-negotiable: position-size cap, gross-exposure cap, sector-exposure cap, daily-loss cap, and a circuit breaker tied to the running high-watermark drawdown threshold.",
+        "[ ] Run only on a small fraction of equity initially; size up only after each successive month of operation continues to satisfy the preservation-against-high-watermark and Sharpe gates.",
+        "[ ] Maintain the same observation / prediction / action / fill audit trail as Phase A and B, so that any month of live operation can be replayed against the backtest deterministically.",
+        "[ ] Stop criterion: any breach of the preservation-against-high-watermark gate halts the executor, requires a written incident note, and forces a return to Phase B until the cause is understood.",
+    ])
+
+    add_para(doc, "Group 3 — Beyond the scope of this dissertation:", bold=True)
     add_bullets(doc, [
         "Alternative uncertainty estimators. Swap the Gaussian-NLL head for a deep ensemble (Lakshminarayanan et al., 2017) or an MC-dropout probabilistic forecaster (Gal and Ghahramani, 2016), with a conformal-prediction overlay (Vovk et al., 2005) as a third option.",
         "Risk-aware reward shaping. Compare the implicit risk control obtained from the trade-size term against an explicit risk-aware reward, for example log-growth penalised by drawdown or a CVaR-shaped reward (Rockafellar and Uryasev, 2000).",

@@ -72,6 +72,7 @@ portfolio-risk-drl/
 │   ├── deepar_style_example.py           # Probabilistic LSTM - works
 │   └── finrl_ppo_example.py              # FinRL+PPO (needs extra deps)
 ├── trained_models/          # Saved PPO models
+├── live/                    # Post-submission deployment scaffold (Phase A/B/C, see live/ROADMAP.md)
 ├── requirements.txt
 └── README.md
 ```

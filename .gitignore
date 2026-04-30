@@ -17,3 +17,7 @@ __pycache__/
 # Word lock files (do NOT ignore the actual artifacts)
 ~$*.docx
 ~$*.doc
+
+# Live deployment scaffolding — runtime artefacts
+live/**/runs/
+live/KILL_SWITCH

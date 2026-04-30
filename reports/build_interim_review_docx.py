@@ -638,56 +638,60 @@ def build() -> Path:
     add_heading(doc, "Future plan", 1)
     add_para(
         doc,
-        "The phasing below maps onto the form's structure and reflects the revised "
-        "direction agreed with the supervisor. Each scheduled task is tied to a "
-        "milestone with a target date. Milestones are also tied to objectives O1 to O4.",
+        "Progress against the previous plan. The May 2026 milestones in the original "
+        "plan have been completed: the dissertation has been reframed around drawdown-"
+        "constrained risk-adjusted return; a finance and risk-management background "
+        "section has been added; the rule-based stop-loss comparator is checked in and "
+        "reported alongside the AI agents; the test universe has been expanded from "
+        "single-index SPY to a 70-ticker diversified-equity universe; and the extended "
+        "seed-stability check has been run on a representative sub-universe. The plan "
+        "below covers what remains.",
+    )
+    add_para(
+        doc,
+        "Each scheduled task is tied to a milestone with a target date. Milestones are "
+        "tied to objectives O1 to O4. The submission-critical path is the backtest and "
+        "walk-forward evidence; live execution sits outside that path and is treated as "
+        "a stretch goal (see the August 2026 row).",
     )
     add_plan_table(doc, [
-        (
-            "May 2026 (remaining)",
-            "Reframe the dissertation around drawdown-constrained risk-adjusted return "
-            "(Abstract, Chapter 1, interim review). Add a Finance / Risk-Management "
-            "Background sub-chapter covering MV, CVaR/ES, drawdown measures and "
-            "Sortino, with notation explained. Implement the rule-based stop-loss "
-            "baseline as a third comparator. Expand the test universe from a single "
-            "index to a 70-ticker diversified-equity universe and re-run the four-"
-            "agent comparison at the Phase-1 budget. Add the Section 5.5.1 extended seed-"
-            "stability check on a representative eight-ticker sub-universe.",
-            "M1: rule-based baseline checked in and reported alongside the AI "
-            "agents (mid-May, done). M2: 70-ticker robustness study + extended "
-            "seed-stability check on representative sub-universe (end of May, done).",
-        ),
         (
             "June 2026 (4 weeks)",
             "Phase-2 extended grid on the full 70-ticker universe at extended "
             "budget (10 seeds × 50 000 timesteps × 4 walk-forward folds × 16 "
             "bootstrap paths) on Colab GPU runtime. Sector-aware uncertainty-"
-            "quantile calibration (replace single global threshold with per-"
-            "sector or per-regime threshold). Begin Chapter 2 (Background) and "
-            "Chapter 3 (Methodology) full drafts.",
-            "M3: full 70-ticker × 4-fold × 10-seed × 50k-step extended grid (mid-"
-            "June). M4: sector-aware calibration ablation + Chapter 2 and Chapter "
-            "3 first drafts (end of June).",
+            "quantile calibration (replace the single global threshold with a "
+            "per-sector or per-regime threshold). Begin Chapter 2 (Background) "
+            "and Chapter 3 (Methodology) full drafts.",
+            "M1: full 70-ticker × 4-fold × 10-seed × 50k-step extended grid "
+            "(mid-June). M2: sector-aware calibration ablation + Chapter 2 and "
+            "Chapter 3 first drafts (end of June).",
         ),
         (
             "July 2026 (4-6 weeks)",
-            "Sensitivity sweep on the uncertainty threshold, minimum scale, and max "
-            "trade fraction. Block-bootstrap data augmentation (Politis and Romano, "
-            "1994) to expand the effective training set. Locked final results table. "
-            "Draft Chapter 5 (Results) and Chapter 1 (Introduction).",
-            "M5: sensitivity and bootstrap results locked (mid-July). M6: Chapters 1, "
-            "2, 3 and 5 first drafts (end of July).",
+            "Sensitivity sweep on the uncertainty quantile threshold, the minimum "
+            "trade-size scale, and the maximum trade fraction. Block-bootstrap "
+            "data augmentation (Politis and Romano, 1994) to expand the effective "
+            "training set. Lock the final headline results table. Draft Chapter 5 "
+            "(Results) and Chapter 1 (Introduction).",
+            "M3: sensitivity and bootstrap results locked (mid-July). M4: Chapters "
+            "1, 2, 3 and 5 first drafts (end of July).",
         ),
         (
             "August 2026 (4 weeks)",
-            "Start the paper-trading shadow run via Alpaca early in the month and let "
-            "it accumulate two weeks of out-of-sample profit-and-loss. Write Chapter "
-            "6 (Discussion) and Chapter 7 (Conclusion). Polish figures, integrate "
-            "supervisor feedback, finalise the dissertation. Code changes from this "
-            "point are bug-fix only.",
-            "M7: paper-trading shadow run started (early August). M8: full draft to "
-            "supervisor (mid-August). M9: paper-trading PnL added to results chapter "
-            "(third week of August). M10: submission-ready version (end of August).",
+            "Polish phase. Write Chapter 6 (Discussion) and Chapter 7 (Conclusion). "
+            "Polish figures and tables, integrate supervisor feedback on the full "
+            "draft, and finalise the dissertation. Code changes from this point are "
+            "bug-fix only. Stretch goal: if time and a working brokerage account "
+            "permit, run a two-week paper-trading shadow run via the Alpaca API and "
+            "report the live profit-and-loss as an out-of-sample case study; if it "
+            "does not happen the dissertation rests on the backtest and walk-forward "
+            "evidence and the live run is recorded as post-submission work in the "
+            "real-world deployment roadmap (see the live/ directory in the "
+            "repository).",
+            "M5: full draft to supervisor (mid-August). M6: submission-ready version "
+            "(end of August). M7 (stretch): paper-trading PnL added to results "
+            "chapter (third week of August), only if the shadow run is in scope.",
         ),
         (
             "September 2026",
@@ -695,16 +699,16 @@ def build() -> Path:
             "twelve slides, no more than twenty minutes per the project handbook), "
             "demo of the reproducible pipeline, pre-emptive question and answer "
             "rehearsal using reports/templates/viva_qa_notes.md.",
-            "M11: viva-ready presentation and demo by viva date.",
+            "M8: viva-ready presentation and demo by viva date.",
         ),
     ])
 
     add_heading(doc, "Risks and mitigations", 2)
     add_bullets(doc, [
-        "Compute time. Current runs are CPU-friendly (10 000 PPO timesteps, three seeds). The multi-ticker, walk-forward, ablation and ten-seed grid is larger but still CPU-tractable; runs will be batched overnight and partial-grid results accepted for any interim deliverable. Where the grid is too heavy for the local machine the corresponding runner can be lifted onto a Google Colab GPU runtime without code changes.",
+        "Compute time. Phase-1 runs are CPU-friendly (10 000 PPO timesteps, three seeds). The full Phase-2 grid is larger but still tractable on a Google Colab T4 GPU runtime, and the runners are designed to lift onto Colab without code changes. Partial-grid results will be accepted for any interim deliverable.",
         "Data-API drift. yfinance occasionally changes its column shape. The _close_1d helper used by every runner already normalises this, and the protocol pins explicit dates so a re-pull stays comparable.",
-        "Result fragility. The Phase-1 numbers may move under the multi-ticker, walk-forward and ablation work. To guard against over-claiming, results will be reported as median and inter-quartile range across at least ten seeds and across tickers, evaluated on multiple sliding test windows (walk-forward) rather than a single one, and any case where the probabilistic variant fails to beat the rule-based stop-loss comparator or buy-and-hold will be called out explicitly.",
-        "Paper-trading dependency. The Alpaca shadow run depends on a working brokerage account and stable market hours. If the API is unavailable for any portion of August, the dissertation will report whatever live profit-and-loss was accumulated up to the cutoff, with the gap explicitly stated.",
+        "Result fragility. The Phase-1 numbers may move under the full 70-ticker, walk-forward and ablation work. To guard against over-claiming, results will be reported as median and inter-quartile range across ten seeds and across tickers, evaluated on multiple sliding test windows (walk-forward) rather than a single window, and any case where the probabilistic variant fails to beat the rule-based stop-loss comparator or buy-and-hold will be called out explicitly.",
+        "Paper-trading dependency (stretch goal only). The Alpaca shadow run is a stretch goal that does not gate the dissertation. If the brokerage account, the API or the time available does not support a clean two-week run during August, the dissertation rests on the backtest and walk-forward evidence and the shadow run is moved into the real-world deployment roadmap as post-submission work.",
     ])
 
     page_break(doc)
